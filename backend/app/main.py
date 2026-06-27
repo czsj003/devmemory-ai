@@ -1,0 +1,49 @@
+from fastapi import Depends, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
+from sqlalchemy.orm import Session
+
+from app.db.database import get_db
+
+app = FastAPI(
+    title="DevMemory AI API",
+    description="Backend API for DevMemory AI",
+    version="0.1.0",
+)
+
+origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.get("/")
+def root():
+    return {
+        "message": "DevMemory AI API is running",
+        "status": "ok",
+    }
+
+
+@app.get("/health")
+def health_check():
+    return {
+        "status": "healthy",
+    }
+
+
+@app.get("/db-health")
+def db_health_check(db: Session = Depends(get_db)):
+    result = db.execute(text("SELECT 1")).scalar()
+    return {
+        "database": "connected",
+        "result": result,
+    }
