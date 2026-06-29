@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 import AppLayout from "./layouts/AppLayout";
 import BugsPage from "./pages/BugsPage";
 import ChatPage from "./pages/ChatPage";
@@ -20,19 +21,21 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
-        <Route element={<AppLayout />}>
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/projects" element={<ProjectsPage />} />
-          <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
-          <Route path="/projects/:projectId/documents" element={<DocumentsPage />} />
-          <Route path="/projects/:projectId/notes" element={<NotesPage />} />
-          <Route path="/projects/:projectId/bugs" element={<BugsPage />} />
-          <Route path="/projects/:projectId/decisions" element={<DecisionsPage />} />
-          <Route path="/projects/:projectId/chat" element={<ChatPage />} />
-          <Route
-            path="/projects/:projectId/interview-prep"
-            element={<InterviewPrepPage />}
-          />
+        <Route element={<ProtectedRoute />}>
+          <Route element={<AppLayout />}>
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
+            <Route path="/projects/:projectId/documents" element={<DocumentsPage />} />
+            <Route path="/projects/:projectId/notes" element={<NotesPage />} />
+            <Route path="/projects/:projectId/bugs" element={<BugsPage />} />
+            <Route path="/projects/:projectId/decisions" element={<DecisionsPage />} />
+            <Route path="/projects/:projectId/chat" element={<ChatPage />} />
+            <Route
+              path="/projects/:projectId/interview-prep"
+              element={<InterviewPrepPage />}
+            />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
