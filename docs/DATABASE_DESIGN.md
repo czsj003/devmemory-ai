@@ -58,6 +58,7 @@ Fields:
 - title
 - type
 - content
+- source
 - created_at
 - updated_at
 

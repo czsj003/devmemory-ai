@@ -71,6 +71,7 @@ DevMemory AI centralizes project context into structured workspaces. Each projec
 
 - Day 1: Project setup and architecture design
 - Day 2: Authentication and project workspace CRUD
+- Day 3: Project documents CRUD
 
 ## Development Log
 
@@ -81,3 +82,7 @@ Initialized the full-stack project structure with React, TypeScript, FastAPI, Po
 ### Day 2
 
 Implemented user authentication, JWT-based protected routes, user-scoped project workspaces, and the initial project dashboard flow.
+
+### Day 3
+
+Implemented project document management. Users can create, view, edit, and delete documents inside project workspaces. Documents are scoped to projects and protected by user ownership checks.

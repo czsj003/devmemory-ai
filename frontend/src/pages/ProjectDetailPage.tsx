@@ -6,7 +6,8 @@ import type { Project } from "../types/project";
 const featureCards = [
   {
     title: "Documents",
-    description: "Upload or paste project documents for AI memory.",
+    description:
+      "Store README, specs, API docs, database notes, deployment notes, and logs.",
     path: "documents",
   },
   {

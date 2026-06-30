@@ -10,9 +10,7 @@ class Project(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    user_id = Column(
-        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
-    )
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
 
     name = Column(String(150), nullable=False)
     description = Column(Text, nullable=True)
@@ -25,9 +23,7 @@ class Project(Base):
     start_date = Column(Date, nullable=True)
     target_date = Column(Date, nullable=True)
 
-    created_at = Column(
-        DateTime(timezone=True), server_default=func.now(), nullable=False
-    )
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(
         DateTime(timezone=True),
         server_default=func.now(),
@@ -36,3 +32,9 @@ class Project(Base):
     )
 
     owner = relationship("User", back_populates="projects")
+
+    documents = relationship(
+        "Document",
+        back_populates="project",
+        cascade="all, delete-orphan",
+    )

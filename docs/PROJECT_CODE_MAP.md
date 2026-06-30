@@ -108,6 +108,63 @@ How to explain:
 
 This route file manages project workspaces and ensures users can only access their own projects.
 
+---
+
+### backend/app/models/document.py
+
+Purpose:
+
+Defines the documents database table.
+
+What it does:
+
+- Stores project document title, type, content, and source
+- Connects each document to a project
+- Tracks creation and update time
+
+How to explain:
+
+This model represents project documents such as README files, specs, API notes, database notes, deployment notes, and logs. Each document belongs to one project workspace.
+
+---
+
+### backend/app/schemas/document.py
+
+Purpose:
+
+Defines request and response shapes for document APIs.
+
+What it does:
+
+- Defines data needed to create a document
+- Defines data allowed when updating a document
+- Defines what document data is returned to the frontend
+
+How to explain:
+
+This file keeps document API input and output validation organized using Pydantic schemas.
+
+---
+
+### backend/app/api/routes/documents.py
+
+Purpose:
+
+Handles project document API routes.
+
+What it does:
+
+- Lists documents for a project
+- Creates a new document
+- Gets one document
+- Updates a document
+- Deletes a document
+- Ensures the current user owns the project before accessing documents
+
+How to explain:
+
+This route file manages project documents and protects them by checking project ownership before returning or changing data.
+
 ## Frontend
 
 ### frontend/src/api/client.ts
@@ -167,3 +224,59 @@ Project workspace homepage.
 How to explain:
 
 This page is the main dashboard for a single project workspace.
+
+---
+
+### frontend/src/types/document.ts
+
+Purpose:
+
+Defines TypeScript types for documents.
+
+What it does:
+
+- Describes document data returned by the backend
+- Describes payloads for creating and updating documents
+
+How to explain:
+
+This file helps the frontend safely work with document data.
+
+---
+
+### frontend/src/pages/DocumentsPage.tsx
+
+Purpose:
+
+Project documents list and creation page.
+
+What it does:
+
+- Loads the current project
+- Loads all documents for that project
+- Displays document cards
+- Provides a form for creating new documents
+- Shows a markdown preview before saving
+
+How to explain:
+
+This page lets users add and manage project documents that will later become searchable AI memory.
+
+---
+
+### frontend/src/pages/DocumentDetailPage.tsx
+
+Purpose:
+
+Single document view and edit page.
+
+What it does:
+
+- Loads one document
+- Displays markdown content
+- Allows editing document title, type, source, and content
+- Allows deleting the document
+
+How to explain:
+
+This page lets users review and update the full content of a project document.
