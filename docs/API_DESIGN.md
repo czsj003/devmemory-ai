@@ -22,6 +22,15 @@ GET /api/projects/{project_id}/documents/{document_id}
 PUT /api/projects/{project_id}/documents/{document_id}  
 DELETE /api/projects/{project_id}/documents/{document_id}  
 POST /api/projects/{project_id}/documents/{document_id}/reindex
+GET /api/projects/{project_id}/documents/{document_id}/chunks
+
+### POST /api/projects/{project_id}/documents/{document_id}/reindex
+
+Rebuilds chunks and embeddings for a document.
+
+### GET /api/projects/{project_id}/documents/{document_id}/chunks
+
+Returns text chunks for a document. Embedding vectors are not returned to the frontend.
 
 ## Daily Notes
 

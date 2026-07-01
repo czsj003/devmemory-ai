@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState, type FormEvent } from "react";
 import ReactMarkdown from "react-markdown";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { apiClient } from "../api/client";
-import type { ProjectDocument } from "../types/document";
+import type { ProjectDocument, ProjectDocumentChunk } from "../types/document";
 
 const DOCUMENT_TYPES = [
   "README",
@@ -26,6 +26,8 @@ export default function DocumentDetailPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [isReindexing, setIsReindexing] = useState(false);
+  const [chunks, setChunks] = useState<ProjectDocumentChunk[]>([]);
   const [error, setError] = useState("");
 
   const loadDocument = useCallback(async () => {
@@ -51,9 +53,27 @@ export default function DocumentDetailPage() {
     }
   }, [documentId, projectId]);
 
+  const loadChunks = useCallback(async () => {
+    if (!projectId || !documentId) return;
+
+    try {
+      const response = await apiClient.get<ProjectDocumentChunk[]>(
+        `/api/projects/${projectId}/documents/${documentId}/chunks`,
+      );
+
+      setChunks(response.data);
+    } catch {
+      setChunks([]);
+    }
+  }, [documentId, projectId]);
+
   useEffect(() => {
     loadDocument();
   }, [loadDocument]);
+
+  useEffect(() => {
+    loadChunks();
+  }, [loadChunks]);
 
   async function handleSave(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -76,10 +96,30 @@ export default function DocumentDetailPage() {
 
       setDocument(response.data);
       setIsEditing(false);
+      await loadChunks();
     } catch {
       setError("Could not save document.");
     } finally {
       setIsSaving(false);
+    }
+  }
+
+  async function handleReindex() {
+    if (!projectId || !documentId) return;
+
+    setIsReindexing(true);
+    setError("");
+
+    try {
+      const response = await apiClient.post<ProjectDocumentChunk[]>(
+        `/api/projects/${projectId}/documents/${documentId}/reindex`,
+      );
+
+      setChunks(response.data);
+    } catch {
+      setError("Could not re-index document.");
+    } finally {
+      setIsReindexing(false);
     }
   }
 
@@ -140,12 +180,24 @@ export default function DocumentDetailPage() {
           <div>
             <h1 className="text-3xl font-bold">{document.title}</h1>
             <p className="mt-2 text-slate-500">
-              Type: {document.type} · Updated{" "}
+              Type: {document.type} - Updated{" "}
               {new Date(document.updated_at).toLocaleDateString()}
+            </p>
+            <p className="mt-2 text-sm text-slate-500">
+              Indexed chunks: {chunks.length}
             </p>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
+            <button
+              className="rounded-lg border px-4 py-2 disabled:opacity-60"
+              disabled={isReindexing}
+              onClick={handleReindex}
+              type="button"
+            >
+              {isReindexing ? "Re-indexing..." : "Re-index"}
+            </button>
+
             <button
               className="rounded-lg border px-4 py-2"
               onClick={() => setIsEditing((value) => !value)}
@@ -230,6 +282,28 @@ export default function DocumentDetailPage() {
           </div>
         </div>
       )}
+
+      <div className="mt-6 rounded-lg bg-white p-6 shadow">
+        <h2 className="text-xl font-semibold">Chunks</h2>
+        {chunks.length === 0 ? (
+          <p className="mt-3 text-sm text-slate-500">
+            No chunks indexed yet. Use Re-index after saving document content.
+          </p>
+        ) : (
+          <div className="mt-4 space-y-3">
+            {chunks.map((chunk) => (
+              <div className="rounded-lg border p-4" key={chunk.id}>
+                <p className="text-xs font-medium text-slate-500">
+                  Chunk {chunk.chunk_index}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-slate-700">
+                  {chunk.content}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

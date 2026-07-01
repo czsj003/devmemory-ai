@@ -165,6 +165,106 @@ How to explain:
 
 This route file manages project documents and protects them by checking project ownership before returning or changing data.
 
+Day 4 update:
+
+- Automatically indexes documents after creation
+- Re-indexes documents when content changes
+- Adds a manual reindex endpoint
+- Adds a chunks endpoint for debugging
+
+How to explain:
+
+This route now connects document CRUD with the RAG indexing pipeline.
+
+---
+
+### backend/app/models/document_chunk.py
+
+Purpose:
+
+Defines the document_chunks database table.
+
+What it does:
+
+- Stores text chunks created from project documents
+- Stores embedding vectors using pgvector
+- Links each chunk to a document and project
+
+How to explain:
+
+This model stores the searchable units used by the RAG pipeline. Instead of sending entire documents to the AI, the system retrieves the most relevant chunks.
+
+---
+
+### backend/app/schemas/document_chunk.py
+
+Purpose:
+
+Defines the response shape for document chunks.
+
+What it does:
+
+- Returns chunk id, project id, document id, content, index, and created time
+- Does not return embedding vectors
+
+How to explain:
+
+This schema allows the backend to show chunk metadata for debugging without exposing large embedding vectors to the frontend.
+
+---
+
+### backend/app/services/chunking.py
+
+Purpose:
+
+Splits long document text into smaller chunks.
+
+What it does:
+
+- Cleans text
+- Splits content by words
+- Creates overlapping chunks
+
+How to explain:
+
+This file prepares long documents for RAG by breaking them into smaller pieces that are easier to embed and retrieve.
+
+---
+
+### backend/app/services/embedding.py
+
+Purpose:
+
+Generates embeddings for text chunks.
+
+What it does:
+
+- Supports fake embeddings for local development
+- Supports real OpenAI embeddings when an API key is configured
+
+How to explain:
+
+This file converts text chunks into vectors so the system can later perform semantic search.
+
+---
+
+### backend/app/services/document_indexer.py
+
+Purpose:
+
+Indexes a document for AI retrieval.
+
+What it does:
+
+- Deletes old chunks for a document
+- Splits the document into chunks
+- Generates embeddings for each chunk
+- Saves chunks into document_chunks
+
+How to explain:
+
+This service turns a normal project document into searchable AI memory.
+
 ## Frontend
 
 ### frontend/src/api/client.ts
@@ -276,7 +376,9 @@ What it does:
 - Displays markdown content
 - Allows editing document title, type, source, and content
 - Allows deleting the document
+- Allows manual re-indexing
+- Displays generated chunks for debugging
 
 How to explain:
 
-This page lets users review and update the full content of a project document.
+This page lets users review and update the full content of a project document, then verify that the document has been indexed into chunks.

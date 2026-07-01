@@ -4,10 +4,12 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_current_user
 from app.db.database import get_db
 from app.models.document import Document
+from app.models.document_chunk import DocumentChunk
 from app.models.project import Project
 from app.models.user import User
 from app.schemas.document import DocumentCreate, DocumentRead, DocumentUpdate
-
+from app.schemas.document_chunk import DocumentChunkRead
+from app.services.document_indexer import index_document
 
 router = APIRouter(
     prefix="/projects/{project_id}/documents",
@@ -77,6 +79,8 @@ def create_document(
     db.commit()
     db.refresh(document)
 
+    index_document(db, document)
+
     return document
 
 
@@ -140,6 +144,9 @@ def update_document(
     db.commit()
     db.refresh(document)
 
+    if "content" in update_data:
+        index_document(db, document)
+
     return document
 
 
@@ -171,3 +178,69 @@ def delete_document(
     db.commit()
 
     return None
+
+
+@router.post("/{document_id}/reindex", response_model=list[DocumentChunkRead])
+def reindex_document(
+    project_id: int,
+    document_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    get_user_project_or_404(project_id, db, current_user)
+
+    document = (
+        db.query(Document)
+        .filter(
+            Document.id == document_id,
+            Document.project_id == project_id,
+        )
+        .first()
+    )
+
+    if not document:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Document not found",
+        )
+
+    chunks = index_document(db, document)
+
+    return chunks
+
+
+@router.get("/{document_id}/chunks", response_model=list[DocumentChunkRead])
+def get_document_chunks(
+    project_id: int,
+    document_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    get_user_project_or_404(project_id, db, current_user)
+
+    document = (
+        db.query(Document)
+        .filter(
+            Document.id == document_id,
+            Document.project_id == project_id,
+        )
+        .first()
+    )
+
+    if not document:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Document not found",
+        )
+
+    chunks = (
+        db.query(DocumentChunk)
+        .filter(
+            DocumentChunk.document_id == document_id,
+            DocumentChunk.project_id == project_id,
+        )
+        .order_by(DocumentChunk.chunk_index.asc())
+        .all()
+    )
+
+    return chunks

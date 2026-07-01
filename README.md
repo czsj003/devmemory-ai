@@ -72,6 +72,7 @@ DevMemory AI centralizes project context into structured workspaces. Each projec
 - Day 1: Project setup and architecture design
 - Day 2: Authentication and project workspace CRUD
 - Day 3: Project documents CRUD
+- Day 4: Document chunking, embeddings, and pgvector storage
 
 ## Development Log
 
@@ -86,3 +87,7 @@ Implemented user authentication, JWT-based protected routes, user-scoped project
 ### Day 3
 
 Implemented project document management. Users can create, view, edit, and delete documents inside project workspaces. Documents are scoped to projects and protected by user ownership checks.
+
+### Day 4
+
+Implemented the document indexing layer for RAG. Documents are now split into chunks, converted into embeddings, and stored in PostgreSQL using pgvector. Added automatic indexing after document creation, re-indexing when document content changes, and endpoints for manual re-indexing and viewing chunks.

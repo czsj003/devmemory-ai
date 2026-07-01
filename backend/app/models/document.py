@@ -22,7 +22,9 @@ class Document(Base):
     content = Column(Text, nullable=False)
     source = Column(String(500), nullable=True)
 
-    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    created_at = Column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
     updated_at = Column(
         DateTime(timezone=True),
         server_default=func.now(),
@@ -31,3 +33,9 @@ class Document(Base):
     )
 
     project = relationship("Project", back_populates="documents")
+
+    chunks = relationship(
+        "DocumentChunk",
+        back_populates="document",
+        cascade="all, delete-orphan",
+    )

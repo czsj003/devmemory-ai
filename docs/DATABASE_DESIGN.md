@@ -75,7 +75,7 @@ Document types:
 
 ### document_chunks
 
-Stores document chunks and embeddings.
+Stores document chunks and embeddings for semantic search.
 
 Fields:
 
@@ -86,6 +86,12 @@ Fields:
 - chunk_index
 - embedding
 - created_at
+
+Notes:
+
+- embedding uses pgvector
+- project_id is stored directly to support project-scoped semantic search
+- document_id links the chunk back to the original document
 
 ### daily_notes
 

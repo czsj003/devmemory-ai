@@ -22,3 +22,12 @@ export interface DocumentUpdatePayload {
   content?: string;
   source?: string | null;
 }
+
+export interface ProjectDocumentChunk {
+  id: number;
+  project_id: number;
+  document_id: number;
+  content: string;
+  chunk_index: number;
+  created_at: string;
+}
