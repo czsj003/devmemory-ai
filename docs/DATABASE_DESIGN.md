@@ -93,6 +93,22 @@ Notes:
 - project_id is stored directly to support project-scoped semantic search
 - document_id links the chunk back to the original document
 
+## Semantic Search Design
+
+Semantic search uses the document_chunks table.
+
+Search flow:
+
+1. User submits a query.
+2. Backend generates a query embedding.
+3. Backend searches document_chunks by vector distance.
+4. Backend filters by project_id.
+5. Backend returns the top_k most relevant chunks.
+
+Important rule:
+
+All semantic search queries must filter by project_id to prevent context from one project from being retrieved inside another project.
+
 ### daily_notes
 
 Stores daily development logs.

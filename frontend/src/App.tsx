@@ -13,6 +13,7 @@ import NotesPage from "./pages/NotesPage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import RegisterPage from "./pages/RegisterPage";
+import SearchPage from "./pages/SearchPage";
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
               path="/projects/:projectId/documents/:documentId"
               element={<DocumentDetailPage />}
             />
+            <Route path="/projects/:projectId/search" element={<SearchPage />} />
             <Route path="/projects/:projectId/notes" element={<NotesPage />} />
             <Route path="/projects/:projectId/bugs" element={<BugsPage />} />
             <Route path="/projects/:projectId/decisions" element={<DecisionsPage />} />

@@ -265,6 +265,62 @@ How to explain:
 
 This service turns a normal project document into searchable AI memory.
 
+---
+
+### backend/app/schemas/search.py
+
+Purpose:
+
+Defines request and response shapes for semantic search.
+
+What it does:
+
+- Validates the user query
+- Limits top_k to a safe range
+- Defines the chunk result data returned to the frontend
+
+How to explain:
+
+This file keeps the search API contract clear: the frontend sends a query, and the backend returns matching chunks with source document metadata.
+
+---
+
+### backend/app/services/semantic_search.py
+
+Purpose:
+
+Runs project-aware semantic search.
+
+What it does:
+
+- Generates an embedding for the search query
+- Searches document_chunks using pgvector distance
+- Filters results by project_id
+- Joins chunks back to their source document
+
+How to explain:
+
+This service is the retrieval part of RAG. It finds the most relevant pieces of project memory before any AI answer is generated.
+
+---
+
+### backend/app/api/routes/search.py
+
+Purpose:
+
+Handles semantic search API routes.
+
+What it does:
+
+- Checks that the current user owns the project
+- Accepts search query requests
+- Calls the semantic search service
+- Returns matching chunks and source document information
+
+How to explain:
+
+This route lets the frontend search one project's indexed memory while preventing cross-project data leaks.
+
 ## Frontend
 
 ### frontend/src/api/client.ts
@@ -382,3 +438,41 @@ What it does:
 How to explain:
 
 This page lets users review and update the full content of a project document, then verify that the document has been indexed into chunks.
+
+---
+
+### frontend/src/types/search.ts
+
+Purpose:
+
+Defines TypeScript types for semantic search results.
+
+What it does:
+
+- Describes the shape of each search result
+- Describes the full semantic search response
+
+How to explain:
+
+This file helps the frontend safely render search results returned by the backend.
+
+---
+
+### frontend/src/pages/SearchPage.tsx
+
+Purpose:
+
+Project semantic search page.
+
+What it does:
+
+- Loads the current project
+- Accepts a search query
+- Lets the user choose top_k
+- Sends the query to the backend semantic search endpoint
+- Displays matching chunks with distance scores
+- Links each result back to its source document
+
+How to explain:
+
+This page lets users search a project's indexed memory. It is the first visible RAG feature, even though it still uses fake embeddings during local development.

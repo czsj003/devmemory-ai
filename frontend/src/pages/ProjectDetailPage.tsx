@@ -11,6 +11,11 @@ const featureCards = [
     path: "documents",
   },
   {
+    title: "Semantic Search",
+    description: "Search indexed project memory using vector similarity.",
+    path: "search",
+  },
+  {
     title: "Daily Notes",
     description: "Track what you built, blockers, fixes, and next steps.",
     path: "notes",

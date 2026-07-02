@@ -32,6 +32,49 @@ Rebuilds chunks and embeddings for a document.
 
 Returns text chunks for a document. Embedding vectors are not returned to the frontend.
 
+## Semantic Search
+
+POST /api/projects/{project_id}/semantic-search
+
+Searches indexed document chunks inside a specific project.
+
+Request:
+
+```json
+{
+  "query": "Why did I choose PostgreSQL and pgvector?",
+  "top_k": 5
+}
+```
+
+Response:
+
+```json
+{
+  "query": "Why did I choose PostgreSQL and pgvector?",
+  "top_k": 5,
+  "results": [
+    {
+      "chunk_id": 1,
+      "project_id": 1,
+      "document_id": 2,
+      "document_title": "DATABASE_DESIGN.md",
+      "document_type": "DATABASE",
+      "content": "DevMemory AI uses PostgreSQL...",
+      "chunk_index": 0,
+      "distance": 0.42
+    }
+  ]
+}
+```
+
+Notes:
+
+- Search is scoped by project_id.
+- Only chunks from the current project are searched.
+- Embedding vectors are not returned to the frontend.
+- Local development currently uses fake embeddings.
+
 ## Daily Notes
 
 GET /api/projects/{project_id}/notes  

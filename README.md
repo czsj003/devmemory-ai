@@ -73,6 +73,7 @@ DevMemory AI centralizes project context into structured workspaces. Each projec
 - Day 2: Authentication and project workspace CRUD
 - Day 3: Project documents CRUD
 - Day 4: Document chunking, embeddings, and pgvector storage
+- Day 5: Project-aware semantic search
 
 ## Development Log
 
@@ -91,3 +92,7 @@ Implemented project document management. Users can create, view, edit, and delet
 ### Day 4
 
 Implemented the document indexing layer for RAG. Documents are now split into chunks, converted into embeddings, and stored in PostgreSQL using pgvector. Added automatic indexing after document creation, re-indexing when document content changes, and endpoints for manual re-indexing and viewing chunks.
+
+### Day 5
+
+Implemented project-aware semantic search. Users can search indexed document chunks inside a specific project workspace. The backend generates a query embedding, searches pgvector chunks by distance, filters results by project ownership and project_id, and returns matching chunks with source document metadata. The frontend now has a Semantic Search page linked from each project.
