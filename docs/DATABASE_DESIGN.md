@@ -215,6 +215,11 @@ Fields:
 - created_at
 - updated_at
 
+Notes:
+
+- Day 6 uses one default chat session per project.
+- Future versions may support multiple chat sessions per project.
+
 ### chat_messages
 
 Stores chat messages.
@@ -232,3 +237,8 @@ Roles:
 
 - USER
 - ASSISTANT
+
+Notes:
+
+- assistant messages can store retrieved sources as JSONB.
+- sources contain document metadata and chunk content used to generate the answer.

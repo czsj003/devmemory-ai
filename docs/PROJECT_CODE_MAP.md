@@ -321,6 +321,119 @@ How to explain:
 
 This route lets the frontend search one project's indexed memory while preventing cross-project data leaks.
 
+---
+
+### backend/app/models/chat_session.py
+
+Purpose:
+
+Defines the chat_sessions database table.
+
+What it does:
+
+- Stores a chat session for a project
+- Connects chat history to a project workspace
+- Owns related chat messages
+
+How to explain:
+
+This model represents a project-level chat session. It lets the app keep chat history for each project.
+
+---
+
+### backend/app/models/chat_message.py
+
+Purpose:
+
+Defines the chat_messages database table.
+
+What it does:
+
+- Stores user and assistant messages
+- Stores assistant sources as JSONB
+- Links messages to a chat session
+
+How to explain:
+
+This model saves the conversation history and the retrieved sources used by assistant responses.
+
+---
+
+### backend/app/schemas/chat.py
+
+Purpose:
+
+Defines request and response shapes for project chat.
+
+What it does:
+
+- Defines chat request payload
+- Defines source format
+- Defines chat message response
+- Defines full chat response
+
+How to explain:
+
+This file keeps the project chat API contract clear and type-safe.
+
+---
+
+### backend/app/services/fake_llm.py
+
+Purpose:
+
+Generates development-mode AI responses without using an external LLM.
+
+What it does:
+
+- Creates a fake answer
+- Mentions retrieved sources
+- Allows chat flow testing without OpenAI API
+
+How to explain:
+
+This file lets the project test the chat pipeline before connecting a real LLM.
+
+---
+
+### backend/app/services/chat_service.py
+
+Purpose:
+
+Coordinates the project chat workflow.
+
+What it does:
+
+- Gets or creates the default chat session
+- Saves user messages
+- Runs semantic search
+- Formats sources
+- Generates a fake assistant answer
+- Saves assistant messages
+
+How to explain:
+
+This service connects chat history, semantic retrieval, and response generation into one workflow.
+
+---
+
+### backend/app/api/routes/chat.py
+
+Purpose:
+
+Exposes project chat API routes.
+
+What it does:
+
+- Returns project chat messages
+- Receives user chat questions
+- Checks project ownership
+- Returns fake answer with retrieved sources
+
+How to explain:
+
+This route provides project-aware chat functionality while keeping user data scoped to the current project.
+
 ## Frontend
 
 ### frontend/src/api/client.ts
@@ -476,3 +589,41 @@ What it does:
 How to explain:
 
 This page lets users search a project's indexed memory. It is the first visible RAG feature, even though it still uses fake embeddings during local development.
+
+---
+
+### frontend/src/types/chat.ts
+
+Purpose:
+
+Defines TypeScript types for project chat.
+
+What it does:
+
+- Describes chat messages
+- Describes chat sources
+- Describes chat API response
+
+How to explain:
+
+This file helps the frontend safely display chat responses and source cards.
+
+---
+
+### frontend/src/pages/ChatPage.tsx
+
+Purpose:
+
+Project-aware AI chat page.
+
+What it does:
+
+- Loads project chat history
+- Lets users send questions
+- Displays user and assistant messages
+- Shows retrieved sources under assistant responses
+- Links sources back to original documents
+
+How to explain:
+
+This page gives users a chat interface for asking questions about a project's indexed memory.

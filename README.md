@@ -74,6 +74,7 @@ DevMemory AI centralizes project context into structured workspaces. Each projec
 - Day 3: Project documents CRUD
 - Day 4: Document chunking, embeddings, and pgvector storage
 - Day 5: Project-aware semantic search
+- Day 6: AI Chat with sources using fake AI responses
 
 ## Development Log
 
@@ -96,3 +97,7 @@ Implemented the document indexing layer for RAG. Documents are now split into ch
 ### Day 5
 
 Implemented project-aware semantic search. Users can search indexed document chunks inside a specific project workspace. The backend generates a query embedding, searches pgvector chunks by distance, filters results by project ownership and project_id, and returns matching chunks with source document metadata. The frontend now has a Semantic Search page linked from each project.
+
+### Day 6
+
+Implemented project-aware chat with sources. The backend now saves chat sessions and messages, retrieves relevant project memory chunks for each user question, generates a development-mode fake AI answer, and stores sources with assistant messages. The frontend includes a Chat page that displays conversation history and source cards linked to original documents.

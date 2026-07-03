@@ -75,6 +75,71 @@ Notes:
 - Embedding vectors are not returned to the frontend.
 - Local development currently uses fake embeddings.
 
+## Chat
+
+GET /api/projects/{project_id}/chat/messages
+POST /api/projects/{project_id}/chat
+
+### GET /api/projects/{project_id}/chat/messages
+
+Returns the default chat session messages for a project.
+
+### POST /api/projects/{project_id}/chat
+
+Sends a project-aware chat message.
+
+Request:
+
+```json
+{
+  "message": "Why did I choose PostgreSQL and pgvector?",
+  "top_k": 5
+}
+```
+
+Response:
+
+```json
+{
+  "answer": "This is a development-mode AI response...",
+  "sources": [
+    {
+      "chunk_id": 1,
+      "document_id": 2,
+      "document_title": "DATABASE_DESIGN.md",
+      "document_type": "DATABASE",
+      "content": "DevMemory AI uses PostgreSQL...",
+      "chunk_index": 0,
+      "distance": 0.42
+    }
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "session_id": 1,
+      "role": "USER",
+      "content": "Why did I choose PostgreSQL and pgvector?",
+      "sources": null,
+      "created_at": "..."
+    },
+    {
+      "id": 2,
+      "session_id": 1,
+      "role": "ASSISTANT",
+      "content": "This is a development-mode AI response...",
+      "sources": [],
+      "created_at": "..."
+    }
+  ]
+}
+```
+
+Notes:
+
+- Current version uses fake AI answers.
+- Sources are retrieved from project-scoped semantic search.
+- Real LLM generation will be added later.
+
 ## Daily Notes
 
 GET /api/projects/{project_id}/notes  

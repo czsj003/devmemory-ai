@@ -32,7 +32,7 @@ const featureCards = [
   },
   {
     title: "AI Chat",
-    description: "Ask questions based on this project's memory.",
+    description: "Ask project-aware questions and view source-backed responses.",
     path: "chat",
   },
   {
