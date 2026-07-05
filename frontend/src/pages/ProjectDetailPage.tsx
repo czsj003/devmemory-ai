@@ -17,7 +17,7 @@ const featureCards = [
   },
   {
     title: "Daily Notes",
-    description: "Track what you built, blockers, fixes, and next steps.",
+    description: "Record daily progress, completed tasks, blockers, and next steps.",
     path: "notes",
   },
   {

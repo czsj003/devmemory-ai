@@ -118,6 +118,7 @@ Fields:
 - id
 - project_id
 - title
+- note_date
 - content
 - ai_summary
 - completed_tasks
@@ -125,6 +126,12 @@ Fields:
 - next_steps
 - created_at
 - updated_at
+
+Notes:
+
+- Daily notes belong to projects.
+- Daily notes record development progress, blockers, and next steps.
+- ai_summary is currently a placeholder and will be generated later when LLM integration is added.
 
 ### bugs
 

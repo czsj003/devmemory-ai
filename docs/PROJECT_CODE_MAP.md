@@ -434,6 +434,63 @@ How to explain:
 
 This route provides project-aware chat functionality while keeping user data scoped to the current project.
 
+---
+
+### backend/app/models/daily_note.py
+
+Purpose:
+
+Defines the daily_notes database table.
+
+What it does:
+
+- Stores daily development notes for a project
+- Tracks completed tasks, blockers, and next steps
+- Stores an AI summary placeholder for future LLM integration
+
+How to explain:
+
+This model represents structured development logs. It helps the project remember what was built each day and what should happen next.
+
+---
+
+### backend/app/schemas/daily_note.py
+
+Purpose:
+
+Defines request and response shapes for daily notes.
+
+What it does:
+
+- Defines data needed to create a daily note
+- Defines data allowed when updating a daily note
+- Defines what note data is returned to the frontend
+
+How to explain:
+
+This file keeps the Daily Notes API validation organized using Pydantic schemas.
+
+---
+
+### backend/app/api/routes/notes.py
+
+Purpose:
+
+Handles Daily Notes API routes.
+
+What it does:
+
+- Lists notes for a project
+- Creates a new daily note
+- Gets one note
+- Updates a note
+- Deletes a note
+- Ensures the current user owns the project before accessing notes
+
+How to explain:
+
+This route file manages daily development notes while protecting project-level user data.
+
 ## Frontend
 
 ### frontend/src/api/client.ts
@@ -627,3 +684,58 @@ What it does:
 How to explain:
 
 This page gives users a chat interface for asking questions about a project's indexed memory.
+
+---
+
+### frontend/src/types/dailyNote.ts
+
+Purpose:
+
+Defines TypeScript types for daily notes.
+
+What it does:
+
+- Describes daily note data returned by the backend
+- Describes payloads for creating and updating notes
+
+How to explain:
+
+This file helps the frontend safely work with daily note data.
+
+---
+
+### frontend/src/pages/NotesPage.tsx
+
+Purpose:
+
+Daily Notes list and creation page.
+
+What it does:
+
+- Loads the current project
+- Loads all daily notes for that project
+- Displays note cards
+- Provides a form for creating new notes
+
+How to explain:
+
+This page lets users record daily project progress, blockers, and next steps.
+
+---
+
+### frontend/src/pages/NoteDetailPage.tsx
+
+Purpose:
+
+Single daily note view and edit page.
+
+What it does:
+
+- Loads one daily note
+- Displays content, completed tasks, blockers, next steps, and AI summary placeholder
+- Allows editing note fields
+- Allows deleting the note
+
+How to explain:
+
+This page lets users review and update a specific daily development log.

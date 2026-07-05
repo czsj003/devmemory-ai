@@ -75,6 +75,7 @@ DevMemory AI centralizes project context into structured workspaces. Each projec
 - Day 4: Document chunking, embeddings, and pgvector storage
 - Day 5: Project-aware semantic search
 - Day 6: AI Chat with sources using fake AI responses
+- Day 7: Daily Development Notes CRUD
 
 ## Development Log
 
@@ -101,3 +102,7 @@ Implemented project-aware semantic search. Users can search indexed document chu
 ### Day 6
 
 Implemented project-aware chat with sources. The backend now saves chat sessions and messages, retrieves relevant project memory chunks for each user question, generates a development-mode fake AI answer, and stores sources with assistant messages. The frontend includes a Chat page that displays conversation history and source cards linked to original documents.
+
+### Day 7
+
+Implemented Daily Development Notes. Users can now create, view, edit, and delete structured daily notes inside a project workspace. Each note can track content, completed tasks, blockers, next steps, and an AI summary placeholder for future LLM integration.

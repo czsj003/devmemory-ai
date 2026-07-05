@@ -9,6 +9,7 @@ import DocumentDetailPage from "./pages/DocumentDetailPage";
 import DocumentsPage from "./pages/DocumentsPage";
 import InterviewPrepPage from "./pages/InterviewPrepPage";
 import LoginPage from "./pages/LoginPage";
+import NoteDetailPage from "./pages/NoteDetailPage";
 import NotesPage from "./pages/NotesPage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
 import ProjectsPage from "./pages/ProjectsPage";
@@ -35,6 +36,10 @@ export default function App() {
             />
             <Route path="/projects/:projectId/search" element={<SearchPage />} />
             <Route path="/projects/:projectId/notes" element={<NotesPage />} />
+            <Route
+              path="/projects/:projectId/notes/:noteId"
+              element={<NoteDetailPage />}
+            />
             <Route path="/projects/:projectId/bugs" element={<BugsPage />} />
             <Route path="/projects/:projectId/decisions" element={<DecisionsPage />} />
             <Route path="/projects/:projectId/chat" element={<ChatPage />} />

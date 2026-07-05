@@ -146,8 +146,31 @@ GET /api/projects/{project_id}/notes
 POST /api/projects/{project_id}/notes  
 GET /api/projects/{project_id}/notes/{note_id}  
 PUT /api/projects/{project_id}/notes/{note_id}  
-DELETE /api/projects/{project_id}/notes/{note_id}  
-POST /api/projects/{project_id}/notes/{note_id}/generate-summary
+DELETE /api/projects/{project_id}/notes/{note_id}
+
+### POST /api/projects/{project_id}/notes
+
+Creates a daily development note for a project.
+
+Request:
+
+```json
+{
+  "title": "Day 7 - Daily Notes",
+  "note_date": "2026-07-05",
+  "content": "Today I implemented Daily Development Notes.",
+  "completed_tasks": "Created model, schemas, routes, and frontend pages.",
+  "blockers": "No major blocker.",
+  "next_steps": "Build Bug Memory next.",
+  "ai_summary": "AI summary will be generated later."
+}
+```
+
+Notes:
+
+- Daily notes are scoped to a project.
+- Project ownership is checked before accessing notes.
+- AI summary generation is not connected yet.
 
 ## Bugs
 

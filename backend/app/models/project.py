@@ -44,3 +44,9 @@ class Project(Base):
         back_populates="project",
         cascade="all, delete-orphan",
     )
+
+    daily_notes = relationship(
+        "DailyNote",
+        back_populates="project",
+        cascade="all, delete-orphan",
+    )
