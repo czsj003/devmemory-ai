@@ -135,7 +135,7 @@ Notes:
 
 ### bugs
 
-Stores bug reports and fixes.
+Stores bug reports, error logs, root causes, and fixes for a project.
 
 Fields:
 
@@ -152,6 +152,11 @@ Fields:
 - ai_analysis
 - created_at
 - updated_at
+
+Notes:
+
+- Bugs belong to projects.
+- ai_analysis is currently a placeholder and will be generated later when LLM integration is added.
 
 Status values:
 

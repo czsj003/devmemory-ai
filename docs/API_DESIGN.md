@@ -178,9 +178,42 @@ GET /api/projects/{project_id}/bugs
 POST /api/projects/{project_id}/bugs  
 GET /api/projects/{project_id}/bugs/{bug_id}  
 PUT /api/projects/{project_id}/bugs/{bug_id}  
-DELETE /api/projects/{project_id}/bugs/{bug_id}  
-POST /api/projects/{project_id}/bugs/{bug_id}/analyze  
-GET /api/projects/{project_id}/bugs/{bug_id}/similar
+DELETE /api/projects/{project_id}/bugs/{bug_id}
+
+### GET /api/projects/{project_id}/bugs
+
+Returns bug records for a project.
+
+Optional query parameters:
+
+- status_filter
+- severity_filter
+
+### POST /api/projects/{project_id}/bugs
+
+Creates a bug record for a project.
+
+Request:
+
+```json
+{
+  "title": "Vercel refresh returns 404",
+  "severity": "HIGH",
+  "status": "FIXED",
+  "tech_stack": "React, Vite, React Router, Vercel",
+  "error_message": "Refreshing /dashboard returns 404 on Vercel deployment.",
+  "logs": "Browser shows Vercel 404 page.",
+  "root_cause": "Client-side routes were not rewritten to index.html.",
+  "fix_summary": "Added vercel.json rewrite rule.",
+  "ai_analysis": "AI analysis will be generated later."
+}
+```
+
+Notes:
+
+- Bugs are scoped to a project.
+- Project ownership is checked before accessing bugs.
+- AI bug analysis is not connected yet.
 
 ## Decisions
 

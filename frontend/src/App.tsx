@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AppLayout from "./layouts/AppLayout";
+import BugDetailPage from "./pages/BugDetailPage";
 import BugsPage from "./pages/BugsPage";
 import ChatPage from "./pages/ChatPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -41,6 +42,10 @@ export default function App() {
               element={<NoteDetailPage />}
             />
             <Route path="/projects/:projectId/bugs" element={<BugsPage />} />
+            <Route
+              path="/projects/:projectId/bugs/:bugId"
+              element={<BugDetailPage />}
+            />
             <Route path="/projects/:projectId/decisions" element={<DecisionsPage />} />
             <Route path="/projects/:projectId/chat" element={<ChatPage />} />
             <Route

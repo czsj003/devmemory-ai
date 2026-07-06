@@ -15,3 +15,4 @@ from app.schemas.chat import (
     ChatResponse,
 )
 from app.schemas.daily_note import DailyNoteCreate, DailyNoteUpdate, DailyNoteRead
+from app.schemas.bug import BugCreate, BugUpdate, BugRead

@@ -50,3 +50,9 @@ class Project(Base):
         back_populates="project",
         cascade="all, delete-orphan",
     )
+
+    bugs = relationship(
+        "Bug",
+        back_populates="project",
+        cascade="all, delete-orphan",
+    )

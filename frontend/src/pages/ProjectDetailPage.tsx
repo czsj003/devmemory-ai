@@ -22,7 +22,7 @@ const featureCards = [
   },
   {
     title: "Bug Memory",
-    description: "Save error messages, logs, causes, fixes, and AI analysis.",
+    description: "Track bugs, error logs, root causes, fixes, and debugging notes.",
     path: "bugs",
   },
   {

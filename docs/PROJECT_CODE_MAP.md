@@ -491,6 +491,65 @@ How to explain:
 
 This route file manages daily development notes while protecting project-level user data.
 
+---
+
+### backend/app/models/bug.py
+
+Purpose:
+
+Defines the bugs database table.
+
+What it does:
+
+- Stores bug title, severity, status, and tech stack
+- Stores error messages and logs
+- Stores root cause and fix summary
+- Stores an AI analysis placeholder for future LLM integration
+
+How to explain:
+
+This model represents structured bug memory. It helps the project remember what went wrong, why it happened, and how it was fixed.
+
+---
+
+### backend/app/schemas/bug.py
+
+Purpose:
+
+Defines request and response shapes for bugs.
+
+What it does:
+
+- Defines data needed to create a bug
+- Defines data allowed when updating a bug
+- Defines what bug data is returned to the frontend
+
+How to explain:
+
+This file keeps the Bug Memory API validation organized using Pydantic schemas.
+
+---
+
+### backend/app/api/routes/bugs.py
+
+Purpose:
+
+Handles Bug Memory API routes.
+
+What it does:
+
+- Lists bugs for a project
+- Supports status and severity filters
+- Creates a new bug
+- Gets one bug
+- Updates a bug
+- Deletes a bug
+- Ensures the current user owns the project before accessing bugs
+
+How to explain:
+
+This route file manages bug records while protecting project-level user data.
+
 ## Frontend
 
 ### frontend/src/api/client.ts
@@ -739,3 +798,59 @@ What it does:
 How to explain:
 
 This page lets users review and update a specific daily development log.
+
+---
+
+### frontend/src/types/bug.ts
+
+Purpose:
+
+Defines TypeScript types for bug records.
+
+What it does:
+
+- Describes bug data returned by the backend
+- Describes payloads for creating and updating bugs
+
+How to explain:
+
+This file helps the frontend safely work with bug memory data.
+
+---
+
+### frontend/src/pages/BugsPage.tsx
+
+Purpose:
+
+Bug Memory list and creation page.
+
+What it does:
+
+- Loads the current project
+- Loads bugs for that project
+- Supports status and severity filters
+- Displays bug cards
+- Provides a form for creating new bugs
+
+How to explain:
+
+This page lets users record bugs, error logs, causes, and fixes for a project.
+
+---
+
+### frontend/src/pages/BugDetailPage.tsx
+
+Purpose:
+
+Single bug view and edit page.
+
+What it does:
+
+- Loads one bug
+- Displays error message, logs, root cause, fix summary, and AI analysis placeholder
+- Allows editing bug fields
+- Allows deleting the bug
+
+How to explain:
+
+This page lets users review and update a specific bug record.

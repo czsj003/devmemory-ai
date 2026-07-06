@@ -76,6 +76,7 @@ DevMemory AI centralizes project context into structured workspaces. Each projec
 - Day 5: Project-aware semantic search
 - Day 6: AI Chat with sources using fake AI responses
 - Day 7: Daily Development Notes CRUD
+- Day 8: Bug Memory CRUD
 
 ## Development Log
 
@@ -106,3 +107,7 @@ Implemented project-aware chat with sources. The backend now saves chat sessions
 ### Day 7
 
 Implemented Daily Development Notes. Users can now create, view, edit, and delete structured daily notes inside a project workspace. Each note can track content, completed tasks, blockers, next steps, and an AI summary placeholder for future LLM integration.
+
+### Day 8
+
+Implemented Bug Memory. Users can now create, view, edit, delete, and filter structured bug records inside a project workspace. Each bug can track severity, status, tech stack, error message, logs, root cause, fix summary, and an AI analysis placeholder for future LLM integration.
