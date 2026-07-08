@@ -77,6 +77,7 @@ DevMemory AI centralizes project context into structured workspaces. Each projec
 - Day 6: AI Chat with sources using fake AI responses
 - Day 7: Daily Development Notes CRUD
 - Day 8: Bug Memory CRUD
+- Day 9: Architecture Decisions / ADR CRUD
 
 ## Development Log
 
@@ -111,3 +112,7 @@ Implemented Daily Development Notes. Users can now create, view, edit, and delet
 ### Day 8
 
 Implemented Bug Memory. Users can now create, view, edit, delete, and filter structured bug records inside a project workspace. Each bug can track severity, status, tech stack, error message, logs, root cause, fix summary, and an AI analysis placeholder for future LLM integration.
+
+### Day 9
+
+Implemented Architecture Decisions / ADR. Users can now create, view, edit, delete, and filter structured architecture decision records inside a project workspace. Each decision can track context, decision, alternatives, consequences, status, and an AI draft placeholder for future LLM integration.

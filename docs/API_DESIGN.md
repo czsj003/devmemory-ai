@@ -215,14 +215,45 @@ Notes:
 - Project ownership is checked before accessing bugs.
 - AI bug analysis is not connected yet.
 
-## Decisions
+## Architecture Decisions
 
 GET /api/projects/{project_id}/decisions  
 POST /api/projects/{project_id}/decisions  
 GET /api/projects/{project_id}/decisions/{decision_id}  
 PUT /api/projects/{project_id}/decisions/{decision_id}  
-DELETE /api/projects/{project_id}/decisions/{decision_id}  
-POST /api/projects/{project_id}/decisions/generate-draft
+DELETE /api/projects/{project_id}/decisions/{decision_id}
+
+### GET /api/projects/{project_id}/decisions
+
+Returns architecture decisions for a project.
+
+Optional query parameters:
+
+- status_filter
+
+### POST /api/projects/{project_id}/decisions
+
+Creates an architecture decision record for a project.
+
+Request:
+
+```json
+{
+  "title": "Use PostgreSQL and pgvector for project memory",
+  "status": "ACCEPTED",
+  "context": "DevMemory AI needs relational storage and vector search.",
+  "decision": "Use PostgreSQL and pgvector.",
+  "alternatives": "MongoDB, SQLite, Pinecone.",
+  "consequences": "Simplifies the MVP but requires pgvector setup.",
+  "ai_draft": "AI ADR draft will be generated later."
+}
+```
+
+Notes:
+
+- Decisions are scoped to a project.
+- Project ownership is checked before accessing decisions.
+- AI ADR draft generation is not connected yet.
 
 ## AI
 

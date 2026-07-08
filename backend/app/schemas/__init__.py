@@ -16,3 +16,4 @@ from app.schemas.chat import (
 )
 from app.schemas.daily_note import DailyNoteCreate, DailyNoteUpdate, DailyNoteRead
 from app.schemas.bug import BugCreate, BugUpdate, BugRead
+from app.schemas.decision import DecisionCreate, DecisionUpdate, DecisionRead

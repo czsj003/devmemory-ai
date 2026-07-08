@@ -174,18 +174,19 @@ Severity values:
 
 ### decisions
 
-Stores architecture decision records.
+Stores architecture decision records for a project.
 
 Fields:
 
 - id
 - project_id
 - title
+- status
 - context
 - decision
 - alternatives
 - consequences
-- status
+- ai_draft
 - created_at
 - updated_at
 
@@ -195,6 +196,12 @@ Status values:
 - ACCEPTED
 - REPLACED
 - DEPRECATED
+
+Notes:
+
+- Decisions belong to projects.
+- Decisions record why technical choices were made.
+- ai_draft is currently a placeholder and will be generated later when LLM integration is added.
 
 ### ai_summaries
 

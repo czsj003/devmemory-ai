@@ -550,6 +550,65 @@ How to explain:
 
 This route file manages bug records while protecting project-level user data.
 
+---
+
+### backend/app/models/decision.py
+
+Purpose:
+
+Defines the decisions database table.
+
+What it does:
+
+- Stores architecture decision records
+- Tracks decision status
+- Stores context, decision, alternatives, and consequences
+- Stores an AI draft placeholder for future LLM integration
+
+How to explain:
+
+This model represents architecture decision memory. It helps the project remember why technical choices were made, not just what was implemented.
+
+---
+
+### backend/app/schemas/decision.py
+
+Purpose:
+
+Defines request and response shapes for architecture decisions.
+
+What it does:
+
+- Defines data needed to create a decision
+- Defines data allowed when updating a decision
+- Defines what decision data is returned to the frontend
+
+How to explain:
+
+This file keeps the Architecture Decisions API validation organized using Pydantic schemas.
+
+---
+
+### backend/app/api/routes/decisions.py
+
+Purpose:
+
+Handles Architecture Decisions API routes.
+
+What it does:
+
+- Lists decisions for a project
+- Supports status filtering
+- Creates a new decision
+- Gets one decision
+- Updates a decision
+- Deletes a decision
+- Ensures the current user owns the project before accessing decisions
+
+How to explain:
+
+This route file manages architecture decision records while protecting project-level user data.
+
 ## Frontend
 
 ### frontend/src/api/client.ts
@@ -854,3 +913,59 @@ What it does:
 How to explain:
 
 This page lets users review and update a specific bug record.
+
+---
+
+### frontend/src/types/decision.ts
+
+Purpose:
+
+Defines TypeScript types for architecture decisions.
+
+What it does:
+
+- Describes decision data returned by the backend
+- Describes payloads for creating and updating decisions
+
+How to explain:
+
+This file helps the frontend safely work with architecture decision data.
+
+---
+
+### frontend/src/pages/DecisionsPage.tsx
+
+Purpose:
+
+Architecture Decisions list and creation page.
+
+What it does:
+
+- Loads the current project
+- Loads decisions for that project
+- Supports status filtering
+- Displays decision cards
+- Provides a form for creating new decisions
+
+How to explain:
+
+This page lets users record architecture choices, alternatives, and trade-offs.
+
+---
+
+### frontend/src/pages/DecisionDetailPage.tsx
+
+Purpose:
+
+Single architecture decision view and edit page.
+
+What it does:
+
+- Loads one decision
+- Displays context, decision, alternatives, consequences, and AI draft placeholder
+- Allows editing decision fields
+- Allows deleting the decision
+
+How to explain:
+
+This page lets users review and update a specific architecture decision record.

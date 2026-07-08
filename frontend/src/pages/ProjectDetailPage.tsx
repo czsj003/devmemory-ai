@@ -27,7 +27,7 @@ const featureCards = [
   },
   {
     title: "Architecture Decisions",
-    description: "Record why important technical choices were made.",
+    description: "Record architecture choices, alternatives, and trade-offs.",
     path: "decisions",
   },
   {

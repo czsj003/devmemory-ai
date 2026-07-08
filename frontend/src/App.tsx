@@ -5,6 +5,7 @@ import BugDetailPage from "./pages/BugDetailPage";
 import BugsPage from "./pages/BugsPage";
 import ChatPage from "./pages/ChatPage";
 import DashboardPage from "./pages/DashboardPage";
+import DecisionDetailPage from "./pages/DecisionDetailPage";
 import DecisionsPage from "./pages/DecisionsPage";
 import DocumentDetailPage from "./pages/DocumentDetailPage";
 import DocumentsPage from "./pages/DocumentsPage";
@@ -47,6 +48,10 @@ export default function App() {
               element={<BugDetailPage />}
             />
             <Route path="/projects/:projectId/decisions" element={<DecisionsPage />} />
+            <Route
+              path="/projects/:projectId/decisions/:decisionId"
+              element={<DecisionDetailPage />}
+            />
             <Route path="/projects/:projectId/chat" element={<ChatPage />} />
             <Route
               path="/projects/:projectId/interview-prep"
