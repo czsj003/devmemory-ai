@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { apiClient } from "../api/client";
 import type { Project } from "../types/project";
 import type {
+  SemanticSearchHealthResponse,
   SemanticSearchResponse,
   SemanticSearchResult,
 } from "../types/search";
@@ -24,6 +25,8 @@ export default function SearchPage() {
   const [lastQuery, setLastQuery] = useState("");
   const [isLoadingProject, setIsLoadingProject] = useState(true);
   const [isSearching, setIsSearching] = useState(false);
+  const [searchHealth, setSearchHealth] =
+    useState<SemanticSearchHealthResponse | null>(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -31,8 +34,15 @@ export default function SearchPage() {
       if (!projectId) return;
 
       try {
-        const response = await apiClient.get<Project>(`/api/projects/${projectId}`);
-        setProject(response.data);
+        const [projectResponse, healthResponse] = await Promise.all([
+          apiClient.get<Project>(`/api/projects/${projectId}`),
+          apiClient.get<SemanticSearchHealthResponse>(
+            `/api/projects/${projectId}/semantic-search/health`,
+          ),
+        ]);
+
+        setProject(projectResponse.data);
+        setSearchHealth(healthResponse.data);
       } catch {
         setError("Could not load project.");
       } finally {
@@ -96,14 +106,27 @@ export default function SearchPage() {
         </p>
       </div>
 
-      <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-        <p className="font-medium">Development note</p>
-        <p className="mt-1">
-          This project is currently using fake embeddings, so ranking quality may
-          not be accurate yet. The search flow is ready, and results will improve
-          after switching to real embeddings and re-indexing documents.
-        </p>
-      </div>
+      {searchHealth?.use_fake_embeddings ? (
+        <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+          <p className="font-medium">Development note</p>
+          <p className="mt-1">
+            This project is currently using fake embeddings, so ranking quality may
+            not be accurate yet. The search flow is ready, and results will improve
+            after switching to real embeddings and re-indexing documents.
+          </p>
+        </div>
+      ) : (
+        searchHealth && (
+          <div className="mt-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
+            <p className="font-medium">Real embeddings enabled</p>
+            <p className="mt-1">
+              Semantic search is using {searchHealth.embedding_model}. Re-index
+              documents after switching modes so existing chunks use real
+              embeddings.
+            </p>
+          </div>
+        )
+      )}
 
       {error && (
         <div className="mt-6 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">

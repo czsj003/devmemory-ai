@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     embedding_model: str = "text-embedding-3-small"
     embedding_dimension: int = 1536
     use_fake_embeddings: bool = True
+    llm_model: str = "gpt-4.1-mini"
 
     class Config:
         env_file = ".env"

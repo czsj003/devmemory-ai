@@ -78,6 +78,7 @@ DevMemory AI centralizes project context into structured workspaces. Each projec
 - Day 7: Daily Development Notes CRUD
 - Day 8: Bug Memory CRUD
 - Day 9: Architecture Decisions / ADR CRUD
+- Day 10: Project overview dashboard and real AI project summaries
 
 ## Development Log
 
@@ -116,3 +117,7 @@ Implemented Bug Memory. Users can now create, view, edit, delete, and filter str
 ### Day 9
 
 Implemented Architecture Decisions / ADR. Users can now create, view, edit, delete, and filter structured architecture decision records inside a project workspace. Each decision can track context, decision, alternatives, consequences, status, and an AI draft placeholder for future LLM integration.
+
+### Day 10
+
+Upgraded the project detail page into a project memory overview dashboard. Added memory counts, memory coverage, recent project activity, AI summaries, and real OpenAI-powered project summary generation. Generated summaries are saved to the ai_summaries table.

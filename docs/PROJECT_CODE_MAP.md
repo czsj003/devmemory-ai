@@ -969,3 +969,166 @@ What it does:
 How to explain:
 
 This page lets users review and update a specific architecture decision record.
+
+---
+
+### backend/app/models/ai_summary.py
+
+Purpose:
+
+Defines the ai_summaries database table.
+
+What it does:
+
+- Stores AI-generated summaries
+- Connects summaries to projects
+- Tracks summary type and creation time
+
+How to explain:
+
+This model stores generated project summaries so users can revisit previous AI-generated project status reports.
+
+---
+
+### backend/app/schemas/project_overview.py
+
+Purpose:
+
+Defines the response shape for the project overview dashboard.
+
+What it does:
+
+- Returns project information
+- Returns memory counts
+- Returns memory coverage
+- Returns recent documents, notes, bugs, and decisions
+- Returns the latest AI summary
+
+How to explain:
+
+This schema supports the project dashboard by combining multiple project memory types into one API response.
+
+---
+
+### backend/app/api/routes/project_overview.py
+
+Purpose:
+
+Provides project overview dashboard data.
+
+What it does:
+
+- Counts project memory items
+- Loads recent activity
+- Computes memory coverage
+- Returns the latest AI summary
+
+How to explain:
+
+This route powers the main project memory dashboard.
+
+---
+
+### backend/app/services/llm.py
+
+Purpose:
+
+Wraps OpenAI text generation.
+
+What it does:
+
+- Creates an OpenAI client
+- Sends system and user prompts
+- Returns generated text
+
+How to explain:
+
+This service isolates LLM calls so the rest of the backend does not directly depend on OpenAI API details.
+
+---
+
+### backend/app/services/project_summary.py
+
+Purpose:
+
+Generates AI project summaries.
+
+What it does:
+
+- Collects recent project context
+- Builds a summary prompt
+- Calls the LLM service
+- Returns a project status summary
+
+How to explain:
+
+This service turns structured project memory into a readable project status report.
+
+---
+
+### backend/app/api/routes/project_summary.py
+
+Purpose:
+
+Exposes project summary APIs.
+
+What it does:
+
+- Generates a new AI project summary
+- Saves the generated summary
+- Returns the latest project summary
+
+How to explain:
+
+This route lets users generate and retrieve AI summaries for a project.
+
+---
+
+### frontend/src/types/aiSummary.ts
+
+Purpose:
+
+Defines TypeScript types for AI summaries.
+
+What it does:
+
+- Describes summary id, project id, type, content, and created_at
+
+How to explain:
+
+This file helps the frontend safely render AI-generated project summaries.
+
+---
+
+### frontend/src/types/projectOverview.ts
+
+Purpose:
+
+Defines TypeScript types for project overview dashboard data.
+
+What it does:
+
+- Describes project counts
+- Describes memory coverage
+- Describes recent project memory items
+- Describes AI summary data
+
+How to explain:
+
+This file helps the frontend safely render the project overview dashboard.
+
+---
+
+### frontend/src/pages/ProjectDetailPage.tsx
+
+Day 10 update:
+
+- Loads project overview instead of only project details
+- Displays memory counts
+- Displays memory coverage
+- Displays recent documents, notes, bugs, and decisions
+- Allows users to generate an AI project summary
+
+How to explain:
+
+This page became the main project memory dashboard.

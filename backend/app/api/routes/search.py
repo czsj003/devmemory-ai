@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user
+from app.core.config import settings
 from app.db.database import get_db
 from app.models.project import Project
 from app.models.user import User
@@ -50,6 +51,8 @@ def semantic_search_health(
         "status": "ok",
         "message": "Semantic search route is available",
         "project_id": project_id,
+        "use_fake_embeddings": settings.use_fake_embeddings,
+        "embedding_model": settings.embedding_model,
     }
 
 

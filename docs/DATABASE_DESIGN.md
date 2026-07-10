@@ -205,7 +205,7 @@ Notes:
 
 ### ai_summaries
 
-Stores generated AI summaries.
+Stores AI-generated summaries for a project.
 
 Fields:
 
@@ -221,6 +221,12 @@ Types:
 - INTERVIEW_PREP
 - NEXT_STEPS
 - BUG_SUMMARY
+
+Notes:
+
+- Day 10 uses PROJECT_STATUS.
+- Summaries are generated using OpenAI API.
+- Each generated summary is stored as a historical record.
 
 ### chat_sessions
 

@@ -3,7 +3,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-from app.api.routes import auth, bugs, chat, decisions, documents, notes, projects, search
+from app.api.routes import (
+    auth,
+    bugs,
+    chat,
+    decisions,
+    documents,
+    notes,
+    project_overview,
+    project_summary,
+    projects,
+    search,
+)
 from app.db.database import get_db
 
 app = FastAPI(
@@ -33,6 +44,8 @@ app.include_router(chat.router, prefix="/api")
 app.include_router(notes.router, prefix="/api")
 app.include_router(bugs.router, prefix="/api")
 app.include_router(decisions.router, prefix="/api")
+app.include_router(project_overview.router, prefix="/api")
+app.include_router(project_summary.router, prefix="/api")
 
 
 @app.get("/")

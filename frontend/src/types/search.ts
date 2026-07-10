@@ -14,3 +14,11 @@ export interface SemanticSearchResponse {
   top_k: number;
   results: SemanticSearchResult[];
 }
+
+export interface SemanticSearchHealthResponse {
+  status: string;
+  message: string;
+  project_id: number;
+  use_fake_embeddings: boolean;
+  embedding_model: string;
+}

@@ -73,7 +73,43 @@ Notes:
 - Search is scoped by project_id.
 - Only chunks from the current project are searched.
 - Embedding vectors are not returned to the frontend.
-- Local development currently uses fake embeddings.
+- When USE_FAKE_EMBEDDINGS=false, query embeddings are generated with OpenAI.
+
+## Project Overview
+
+GET /api/projects/{project_id}/overview
+
+Returns project dashboard data.
+
+Response includes:
+
+- project
+- counts
+- memory coverage
+- latest documents
+- latest daily notes
+- latest bugs
+- latest architecture decisions
+- latest AI summary
+
+## Project Summary
+
+POST /api/projects/{project_id}/summary/generate
+GET /api/projects/{project_id}/summary/latest
+
+### POST /api/projects/{project_id}/summary/generate
+
+Generates a real AI project status summary using OpenAI.
+
+Notes:
+
+- Project ownership is checked.
+- The summary is generated from recent documents, notes, bugs, and decisions.
+- The generated summary is saved in ai_summaries.
+
+### GET /api/projects/{project_id}/summary/latest
+
+Returns the latest PROJECT_STATUS AI summary for a project.
 
 ## Chat
 
@@ -259,7 +295,9 @@ Notes:
 
 POST /api/projects/{project_id}/chat  
 POST /api/projects/{project_id}/semantic-search  
-POST /api/projects/{project_id}/generate-summary  
+GET /api/projects/{project_id}/overview
+POST /api/projects/{project_id}/summary/generate
+GET /api/projects/{project_id}/summary/latest
 POST /api/projects/{project_id}/generate-next-steps  
 POST /api/projects/{project_id}/generate-interview-prep  
 POST /api/projects/{project_id}/generate-resume-bullets

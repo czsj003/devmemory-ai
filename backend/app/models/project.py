@@ -62,3 +62,9 @@ class Project(Base):
         back_populates="project",
         cascade="all, delete-orphan",
     )
+
+    ai_summaries = relationship(
+        "AISummary",
+        back_populates="project",
+        cascade="all, delete-orphan",
+    )

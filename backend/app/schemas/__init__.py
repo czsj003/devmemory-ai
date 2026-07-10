@@ -17,3 +17,9 @@ from app.schemas.chat import (
 from app.schemas.daily_note import DailyNoteCreate, DailyNoteUpdate, DailyNoteRead
 from app.schemas.bug import BugCreate, BugUpdate, BugRead
 from app.schemas.decision import DecisionCreate, DecisionUpdate, DecisionRead
+from app.schemas.ai_summary import AISummaryRead
+from app.schemas.project_overview import (
+    ProjectMemoryCoverage,
+    ProjectOverviewCounts,
+    ProjectOverviewResponse,
+)
