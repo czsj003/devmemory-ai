@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.models.chat_message import ChatMessage
 from app.models.chat_session import ChatSession
-from app.services.fake_llm import generate_fake_chat_answer
+from app.services.rag_answer import generate_rag_answer
 from app.services.semantic_search import search_project_chunks
 
 
@@ -83,7 +83,7 @@ def create_chat_response(
     )
     sources = format_sources(search_results)
 
-    answer = generate_fake_chat_answer(
+    answer = generate_rag_answer(
         user_message=user_message,
         sources=sources,
     )

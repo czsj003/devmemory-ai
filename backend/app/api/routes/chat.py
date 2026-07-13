@@ -61,9 +61,15 @@ def chat_with_project(
 ):
     get_user_project_or_404(project_id, db, current_user)
 
-    return create_chat_response(
-        db=db,
-        project_id=project_id,
-        user_message=payload.message,
-        top_k=payload.top_k,
-    )
+    try:
+        return create_chat_response(
+            db=db,
+            project_id=project_id,
+            user_message=payload.message,
+            top_k=payload.top_k,
+        )
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Could not generate chat response: {str(exc)}",
+        ) from exc

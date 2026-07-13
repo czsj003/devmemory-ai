@@ -31,6 +31,6 @@ def generate_text(
     content = response.choices[0].message.content
 
     if not content:
-        return "No summary generated."
+        return "No answer generated."
 
     return content

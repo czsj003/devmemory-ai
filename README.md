@@ -79,6 +79,7 @@ DevMemory AI centralizes project context into structured workspaces. Each projec
 - Day 8: Bug Memory CRUD
 - Day 9: Architecture Decisions / ADR CRUD
 - Day 10: Project overview dashboard and real AI project summaries
+- Day 11: Real source-grounded AI chat
 
 ## Development Log
 
@@ -121,3 +122,7 @@ Implemented Architecture Decisions / ADR. Users can now create, view, edit, dele
 ### Day 10
 
 Upgraded the project detail page into a project memory overview dashboard. Added memory counts, memory coverage, recent project activity, AI summaries, and real OpenAI-powered project summary generation. Generated summaries are saved to the ai_summaries table.
+
+### Day 11
+
+Replaced fake AI chat answers with real source-grounded RAG answers. The backend now retrieves relevant project memory chunks, builds a prompt from sources, calls OpenAI to generate an answer, saves the assistant message, and returns sources for frontend display.

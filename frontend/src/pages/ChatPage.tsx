@@ -62,7 +62,7 @@ export default function ChatPage() {
       setMessage("");
     } catch {
       setError(
-        "Could not send this message. Make sure the backend, database, and document chunks are ready.",
+        "Could not generate AI response. Check indexed documents and OpenAI API configuration.",
       );
     } finally {
       setIsSending(false);
@@ -103,11 +103,11 @@ export default function ChatPage() {
         </label>
       </div>
 
-      <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-        <p className="font-medium">Development mode</p>
+      <div className="mt-6 rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800">
+        <p className="font-medium">Source-grounded AI chat</p>
         <p className="mt-1">
-          Answers are fake for now, but sources come from real project-scoped
-          semantic search.
+          This chat retrieves relevant project memory first, then generates an
+          answer using OpenAI. Sources are shown under each assistant response.
         </p>
       </div>
 
@@ -153,7 +153,7 @@ export default function ChatPage() {
               disabled={isSending}
               type="submit"
             >
-              {isSending ? "Sending..." : "Send"}
+              {isSending ? "Generating AI response..." : "Send"}
             </button>
           </div>
         </form>
@@ -181,6 +181,25 @@ function EmptyState({
       >
         Try an example
       </button>
+
+      <div className="mx-auto mt-4 grid max-w-xl gap-2 text-left md:grid-cols-2">
+        {[
+          "What is this project about?",
+          "Why did I choose PostgreSQL and pgvector?",
+          "How is the RAG pipeline designed?",
+          "What are the most important architecture decisions?",
+          "How should I explain this project in an interview?",
+        ].map((example) => (
+          <button
+            className="rounded-lg border px-3 py-2 text-left text-sm hover:bg-slate-50"
+            key={example}
+            onClick={() => setMessage(example)}
+            type="button"
+          >
+            {example}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

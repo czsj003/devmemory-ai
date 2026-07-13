@@ -392,7 +392,44 @@ What it does:
 
 How to explain:
 
-This file lets the project test the chat pipeline before connecting a real LLM.
+This file is kept as a development fallback. The production chat flow now uses rag_answer.py for real OpenAI responses.
+
+---
+
+### backend/app/services/prompt_builder.py
+
+Purpose:
+
+Builds prompts for source-grounded RAG answers.
+
+What it does:
+
+- Converts retrieved sources into readable context blocks
+- Builds the system prompt for DevMemory AI
+- Builds the user prompt with the user's question and retrieved sources
+
+How to explain:
+
+This file controls how project memory is passed into the LLM so the assistant answers based on sources instead of guessing.
+
+---
+
+### backend/app/services/rag_answer.py
+
+Purpose:
+
+Generates real AI chat answers from retrieved project memory.
+
+What it does:
+
+- Checks whether sources exist
+- Builds a RAG prompt
+- Calls the LLM service
+- Returns a source-grounded answer
+
+How to explain:
+
+This service is the generation step of the RAG pipeline. It turns retrieved project chunks into a useful AI answer.
 
 ---
 
@@ -408,12 +445,12 @@ What it does:
 - Saves user messages
 - Runs semantic search
 - Formats sources
-- Generates a fake assistant answer
+- Generates a real source-grounded assistant answer with OpenAI
 - Saves assistant messages
 
 How to explain:
 
-This service connects chat history, semantic retrieval, and response generation into one workflow.
+This service now coordinates the full RAG chat workflow: save user message, retrieve sources, generate an OpenAI answer, save assistant message, and return chat history.
 
 ---
 
@@ -428,7 +465,7 @@ What it does:
 - Returns project chat messages
 - Receives user chat questions
 - Checks project ownership
-- Returns fake answer with retrieved sources
+- Returns real OpenAI answers with retrieved sources
 
 How to explain:
 
@@ -798,10 +835,11 @@ What it does:
 - Displays user and assistant messages
 - Shows retrieved sources under assistant responses
 - Links sources back to original documents
+- Displays real OpenAI-generated answers
 
 How to explain:
 
-This page gives users a chat interface for asking questions about a project's indexed memory.
+This page now provides a real AI chat experience grounded in project memory sources.
 
 ---
 
