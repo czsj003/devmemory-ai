@@ -111,6 +111,49 @@ Notes:
 
 Returns the latest PROJECT_STATUS AI summary for a project.
 
+## Unified Memory
+
+POST /api/projects/{project_id}/memory/reindex
+GET /api/projects/{project_id}/memory/chunks
+GET /api/projects/{project_id}/memory/stats
+
+### POST /api/projects/{project_id}/memory/reindex
+
+Rebuilds the unified memory index for a project.
+
+Sources indexed:
+
+- Documents
+- Daily Notes
+- Bugs
+- Architecture Decisions
+
+Response:
+
+```json
+{
+  "project_id": 1,
+  "chunks_created": 12,
+  "documents_indexed": 3,
+  "notes_indexed": 2,
+  "bugs_indexed": 3,
+  "decisions_indexed": 4
+}
+```
+
+### GET /api/projects/{project_id}/memory/chunks
+
+Returns unified memory chunks.
+
+Optional query parameters:
+
+- source_type
+- limit
+
+### GET /api/projects/{project_id}/memory/stats
+
+Returns chunk counts by source type.
+
 ## Chat
 
 GET /api/projects/{project_id}/chat/messages
@@ -317,6 +360,9 @@ POST /api/projects/{project_id}/semantic-search
 GET /api/projects/{project_id}/overview
 POST /api/projects/{project_id}/summary/generate
 GET /api/projects/{project_id}/summary/latest
+POST /api/projects/{project_id}/memory/reindex
+GET /api/projects/{project_id}/memory/chunks
+GET /api/projects/{project_id}/memory/stats
 POST /api/projects/{project_id}/generate-next-steps  
 POST /api/projects/{project_id}/generate-interview-prep  
 POST /api/projects/{project_id}/generate-resume-bullets

@@ -9,6 +9,7 @@ from app.api.routes import (
     chat,
     decisions,
     documents,
+    memory,
     notes,
     project_overview,
     project_summary,
@@ -46,6 +47,7 @@ app.include_router(bugs.router, prefix="/api")
 app.include_router(decisions.router, prefix="/api")
 app.include_router(project_overview.router, prefix="/api")
 app.include_router(project_summary.router, prefix="/api")
+app.include_router(memory.router, prefix="/api")
 
 
 @app.get("/")

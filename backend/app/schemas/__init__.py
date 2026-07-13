@@ -23,3 +23,8 @@ from app.schemas.project_overview import (
     ProjectOverviewCounts,
     ProjectOverviewResponse,
 )
+from app.schemas.memory import (
+    MemoryChunkRead,
+    MemoryReindexResponse,
+    MemoryStatsResponse,
+)

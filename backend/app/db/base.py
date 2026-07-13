@@ -10,3 +10,4 @@ from app.models.daily_note import DailyNote
 from app.models.bug import Bug
 from app.models.decision import Decision
 from app.models.ai_summary import AISummary
+from app.models.memory_chunk import MemoryChunk

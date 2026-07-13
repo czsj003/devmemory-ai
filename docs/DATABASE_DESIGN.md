@@ -93,6 +93,37 @@ Notes:
 - project_id is stored directly to support project-scoped semantic search
 - document_id links the chunk back to the original document
 
+### memory_chunks
+
+Stores unified project memory chunks across multiple source types.
+
+Fields:
+
+- id
+- project_id
+- source_type
+- source_id
+- source_title
+- content
+- chunk_index
+- embedding
+- created_at
+
+Source types:
+
+- DOCUMENT
+- DAILY_NOTE
+- BUG
+- DECISION
+
+Notes:
+
+- memory_chunks is the unified memory index.
+- source_type and source_id identify the original record.
+- embedding uses pgvector.
+- Day 12 creates the table and reindex workflow.
+- Day 13 will upgrade semantic search and AI chat to use memory_chunks.
+
 ## Semantic Search Design
 
 Semantic search uses the document_chunks table.

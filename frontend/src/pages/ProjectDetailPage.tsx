@@ -12,6 +12,11 @@ const featureCards = [
     path: "documents",
   },
   {
+    title: "Unified Memory Index",
+    description: "Index documents, notes, bugs, and decisions into one memory layer.",
+    path: "memory",
+  },
+  {
     title: "Semantic Search",
     description: "Search indexed project memory using vector similarity.",
     path: "search",

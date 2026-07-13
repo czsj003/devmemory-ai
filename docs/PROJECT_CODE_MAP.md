@@ -1170,3 +1170,140 @@ Day 10 update:
 How to explain:
 
 This page became the main project memory dashboard.
+
+Day 12 update:
+
+- Added a Unified Memory Index entry point
+
+---
+
+### backend/app/models/memory_chunk.py
+
+Purpose:
+
+Defines the unified memory_chunks database table.
+
+What it does:
+
+- Stores chunks from documents, daily notes, bugs, and decisions
+- Stores source_type and source_id to link back to the original record
+- Stores embedding vectors using pgvector
+
+How to explain:
+
+This model is the unified project memory index. It allows the app to search across all project memory types, not just documents.
+
+---
+
+### backend/app/schemas/memory.py
+
+Purpose:
+
+Defines request and response shapes for unified memory APIs.
+
+What it does:
+
+- Defines memory chunk response data
+- Defines reindex response data
+- Defines memory stats response data
+
+How to explain:
+
+This file keeps the unified memory API contract organized.
+
+---
+
+### backend/app/services/memory_content.py
+
+Purpose:
+
+Formats different memory source types into searchable text.
+
+What it does:
+
+- Converts documents into memory text
+- Converts daily notes into memory text
+- Converts bugs into memory text
+- Converts decisions into memory text
+
+How to explain:
+
+This service standardizes different project memory types before chunking and embedding.
+
+---
+
+### backend/app/services/memory_indexer.py
+
+Purpose:
+
+Builds the unified memory index for a project.
+
+What it does:
+
+- Deletes old memory chunks
+- Reads project documents, notes, bugs, and decisions
+- Formats each source into text
+- Splits content into chunks
+- Generates embeddings
+- Saves chunks to memory_chunks
+
+How to explain:
+
+This service turns structured project data into searchable AI memory.
+
+---
+
+### backend/app/api/routes/memory.py
+
+Purpose:
+
+Exposes unified memory APIs.
+
+What it does:
+
+- Re-indexes all project memory
+- Returns memory chunks
+- Returns memory statistics
+- Checks project ownership before accessing memory
+
+How to explain:
+
+This route lets users build and inspect the unified project memory index.
+
+---
+
+### frontend/src/types/memory.ts
+
+Purpose:
+
+Defines TypeScript types for unified memory.
+
+What it does:
+
+- Describes memory chunks
+- Describes reindex response
+- Describes memory stats
+
+How to explain:
+
+This file helps the frontend safely display unified memory index data.
+
+---
+
+### frontend/src/pages/MemoryPage.tsx
+
+Purpose:
+
+Unified Memory Index page.
+
+What it does:
+
+- Shows memory chunk counts
+- Allows users to re-index all project memory
+- Displays memory chunks
+- Filters chunks by source type
+- Links chunks back to their original source records
+
+How to explain:
+
+This page gives users visibility into the unified memory layer that powers future project-wide AI search and chat.

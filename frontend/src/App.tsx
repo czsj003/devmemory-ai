@@ -11,6 +11,7 @@ import DocumentDetailPage from "./pages/DocumentDetailPage";
 import DocumentsPage from "./pages/DocumentsPage";
 import InterviewPrepPage from "./pages/InterviewPrepPage";
 import LoginPage from "./pages/LoginPage";
+import MemoryPage from "./pages/MemoryPage";
 import NoteDetailPage from "./pages/NoteDetailPage";
 import NotesPage from "./pages/NotesPage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
@@ -31,6 +32,7 @@ export default function App() {
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
+            <Route path="/projects/:projectId/memory" element={<MemoryPage />} />
             <Route path="/projects/:projectId/documents" element={<DocumentsPage />} />
             <Route
               path="/projects/:projectId/documents/:documentId"
