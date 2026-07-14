@@ -81,6 +81,7 @@ DevMemory AI centralizes project context into structured workspaces. Each projec
 - Day 10: Project overview dashboard and real AI project summaries
 - Day 11: Real source-grounded AI chat
 - Day 12: Unified memory indexing
+- Day 13: Unified memory search and unified AI chat
 
 ## Development Log
 
@@ -131,3 +132,7 @@ Replaced fake AI chat answers with real source-grounded RAG answers. The backend
 ### Day 12
 
 Implemented unified memory indexing. Documents, daily notes, bug records, and architecture decisions can now be converted into memory chunks with embeddings and stored in a unified memory_chunks table. Added APIs and a frontend page for re-indexing project memory, viewing memory stats, and inspecting indexed chunks.
+
+### Day 13
+
+Upgraded search and chat to use the unified memory index. Users can now search across documents, daily notes, bug records, and architecture decisions from one endpoint. AI Chat now retrieves from memory_chunks before calling OpenAI, and source cards can link back to the original source type.

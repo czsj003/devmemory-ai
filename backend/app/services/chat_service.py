@@ -4,8 +4,8 @@ from sqlalchemy.orm import Session
 
 from app.models.chat_message import ChatMessage
 from app.models.chat_session import ChatSession
+from app.services.memory_search import search_project_memory_chunks
 from app.services.rag_answer import generate_rag_answer
-from app.services.semantic_search import search_project_chunks
 
 
 def get_or_create_default_chat_session(
@@ -41,9 +41,9 @@ def format_sources(search_results) -> list[dict[str, Any]]:
         sources.append(
             {
                 "chunk_id": result["chunk_id"],
-                "document_id": result["document_id"],
-                "document_title": result["document_title"],
-                "document_type": result["document_type"],
+                "source_type": result["source_type"],
+                "source_id": result["source_id"],
+                "source_title": result["source_title"],
                 "content": result["content"],
                 "chunk_index": result["chunk_index"],
                 "distance": float(result["distance"]),
@@ -75,7 +75,7 @@ def create_chat_response(
     db.commit()
     db.refresh(user_chat_message)
 
-    search_results = search_project_chunks(
+    search_results = search_project_memory_chunks(
         db=db,
         project_id=project_id,
         query=user_message,

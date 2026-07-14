@@ -1,8 +1,11 @@
 export type ChatSource = {
   chunk_id: number;
-  document_id: number;
-  document_title: string;
-  document_type: string;
+  source_type?: string;
+  source_id?: number;
+  source_title?: string;
+  document_id?: number;
+  document_title?: string;
+  document_type?: string;
   content: string;
   chunk_index: number;
   distance: number;

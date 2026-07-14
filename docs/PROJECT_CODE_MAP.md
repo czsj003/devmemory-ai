@@ -271,7 +271,7 @@ This service turns a normal project document into searchable AI memory.
 
 Purpose:
 
-Defines request and response shapes for semantic search.
+Defines request and response shapes for the older document-only semantic search.
 
 What it does:
 
@@ -281,7 +281,7 @@ What it does:
 
 How to explain:
 
-This file keeps the search API contract clear: the frontend sends a query, and the backend returns matching chunks with source document metadata.
+This file keeps the legacy search API contract clear. Day 13 unified search uses memory schemas instead.
 
 ---
 
@@ -289,7 +289,7 @@ This file keeps the search API contract clear: the frontend sends a query, and t
 
 Purpose:
 
-Runs project-aware semantic search.
+Runs document-only project semantic search.
 
 What it does:
 
@@ -300,7 +300,7 @@ What it does:
 
 How to explain:
 
-This service is the retrieval part of RAG. It finds the most relevant pieces of project memory before any AI answer is generated.
+This service remains available for document_chunks debugging. The main Day 13 RAG flow uses memory_search.py.
 
 ---
 
@@ -443,14 +443,14 @@ What it does:
 
 - Gets or creates the default chat session
 - Saves user messages
-- Runs semantic search
+- Runs unified memory search
 - Formats sources
 - Generates a real source-grounded assistant answer with OpenAI
 - Saves assistant messages
 
 How to explain:
 
-This service now coordinates the full RAG chat workflow: save user message, retrieve sources, generate an OpenAI answer, save assistant message, and return chat history.
+This service now coordinates the full RAG chat workflow: save user message, retrieve unified memory sources, generate an OpenAI answer, save assistant message, and return chat history.
 
 ---
 
@@ -770,7 +770,7 @@ This page lets users review and update the full content of a project document, t
 
 Purpose:
 
-Defines TypeScript types for semantic search results.
+Defines TypeScript types for search results.
 
 What it does:
 
@@ -779,7 +779,7 @@ What it does:
 
 How to explain:
 
-This file helps the frontend safely render search results returned by the backend.
+This file keeps search result typing available. Day 13 unified search primarily uses memory.ts types.
 
 ---
 
@@ -787,20 +787,21 @@ This file helps the frontend safely render search results returned by the backen
 
 Purpose:
 
-Project semantic search page.
+Project unified memory search page.
 
 What it does:
 
 - Loads the current project
 - Accepts a search query
 - Lets the user choose top_k
-- Sends the query to the backend semantic search endpoint
+- Lets the user filter by source type
+- Sends the query to the backend unified memory search endpoint
 - Displays matching chunks with distance scores
-- Links each result back to its source document
+- Links each result back to its original source record
 
 How to explain:
 
-This page lets users search a project's indexed memory. It is the first visible RAG feature, even though it still uses fake embeddings during local development.
+This page lets users search documents, daily notes, bugs, and architecture decisions from one unified memory index.
 
 ---
 
@@ -834,7 +835,7 @@ What it does:
 - Lets users send questions
 - Displays user and assistant messages
 - Shows retrieved sources under assistant responses
-- Links sources back to original documents
+- Links sources back to original documents, notes, bugs, or decisions
 - Displays real OpenAI-generated answers
 
 How to explain:
@@ -1206,10 +1207,30 @@ What it does:
 - Defines memory chunk response data
 - Defines reindex response data
 - Defines memory stats response data
+- Defines unified memory search request and response data
 
 How to explain:
 
 This file keeps the unified memory API contract organized.
+
+---
+
+### backend/app/services/memory_search.py
+
+Purpose:
+
+Searches the unified memory_chunks table.
+
+What it does:
+
+- Generates an embedding for the user's query
+- Searches memory_chunks by pgvector distance
+- Filters by project_id and optional source_type
+- Returns source_type, source_id, source_title, content, chunk_index, and distance
+
+How to explain:
+
+This is the Day 13 retrieval layer. It lets search and AI Chat find relevant context across documents, daily notes, bugs, and architecture decisions.
 
 ---
 
@@ -1264,11 +1285,12 @@ What it does:
 - Re-indexes all project memory
 - Returns memory chunks
 - Returns memory statistics
+- Searches unified memory chunks
 - Checks project ownership before accessing memory
 
 How to explain:
 
-This route lets users build and inspect the unified project memory index.
+This route lets users build, inspect, and search the unified project memory index.
 
 ---
 
@@ -1283,6 +1305,7 @@ What it does:
 - Describes memory chunks
 - Describes reindex response
 - Describes memory stats
+- Describes unified memory search results
 
 How to explain:
 

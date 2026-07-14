@@ -17,7 +17,7 @@ def generate_fake_chat_answer(
         return (
             "This is a development-mode AI response.\n\n"
             "I could not find any indexed project memory related to your question yet. "
-            "Try adding project documents and re-indexing them first.\n\n"
+            "Try adding project memory and re-indexing it first.\n\n"
             "When real LLM generation is enabled, I will answer using retrieved project context."
         )
 
@@ -25,7 +25,7 @@ def generate_fake_chat_answer(
     seen_titles = set()
 
     for source in sources:
-        title = source.get("document_title", "Unknown source")
+        title = source.get("source_title") or source.get("document_title", "Unknown source")
         if title not in seen_titles:
             source_titles.append(title)
             seen_titles.add(title)
@@ -41,7 +41,7 @@ def generate_fake_chat_answer(
         f"{source_list}\n\n"
         "What this means:\n"
         "The retrieval layer is working. The system can search this project's indexed memory, "
-        "find related document chunks, and attach sources to the chat response.\n\n"
+        "find related memory chunks, and attach sources to the chat response.\n\n"
         "Next step:\n"
         "Later, we will replace this fake response with a real LLM-generated answer based on these retrieved sources."
     )

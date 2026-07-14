@@ -11,9 +11,9 @@ class ChatRequest(BaseModel):
 
 class ChatSource(BaseModel):
     chunk_id: int
-    document_id: int
-    document_title: str
-    document_type: str
+    source_type: str
+    source_id: int
+    source_title: str
     content: str
     chunk_index: int
     distance: float

@@ -62,7 +62,7 @@ export default function ChatPage() {
       setMessage("");
     } catch {
       setError(
-        "Could not generate AI response. Check indexed documents and OpenAI API configuration.",
+        "Could not generate AI response. Check unified memory indexing and OpenAI API configuration.",
       );
     } finally {
       setIsSending(false);
@@ -104,10 +104,10 @@ export default function ChatPage() {
       </div>
 
       <div className="mt-6 rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800">
-        <p className="font-medium">Source-grounded AI chat</p>
+        <p className="font-medium">Unified source-grounded AI chat</p>
         <p className="mt-1">
-          This chat retrieves relevant project memory first, then generates an
-          answer using OpenAI. Sources are shown under each assistant response.
+          This chat retrieves relevant documents, notes, bugs, and decisions
+          from the unified memory index, then generates an answer using OpenAI.
         </p>
       </div>
 
@@ -143,7 +143,7 @@ export default function ChatPage() {
             <textarea
               className="min-h-24 flex-1 rounded-lg border px-4 py-3"
               onChange={(event) => setMessage(event.target.value)}
-              placeholder="Ask about this project's indexed documents..."
+              placeholder="Ask about this project's indexed memory..."
               required
               value={message}
             />
@@ -171,7 +171,7 @@ function EmptyState({
     <div className="rounded-lg border border-dashed p-8 text-center">
       <h2 className="text-lg font-semibold">No messages yet</h2>
       <p className="mt-2 text-slate-500">
-        Start by asking a question about this project's indexed documents.
+        Start by asking a question about this project's indexed memory.
       </p>
 
       <button
@@ -185,8 +185,9 @@ function EmptyState({
       <div className="mx-auto mt-4 grid max-w-xl gap-2 text-left md:grid-cols-2">
         {[
           "What is this project about?",
+          "What did I build on Day 7?",
+          "What bugs have I fixed?",
           "Why did I choose PostgreSQL and pgvector?",
-          "How is the RAG pipeline designed?",
           "What are the most important architecture decisions?",
           "How should I explain this project in an interview?",
         ].map((example) => (
@@ -253,16 +254,16 @@ function SourcesList({
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-sm font-medium">{source.document_title}</p>
+                <p className="text-sm font-medium">{getSourceTitle(source)}</p>
                 <p className="mt-1 text-xs text-slate-500">
-                  {source.document_type} - Chunk {source.chunk_index} - Distance{" "}
+                  {getSourceType(source)} - Chunk {source.chunk_index} - Distance{" "}
                   {source.distance.toFixed(4)}
                 </p>
               </div>
 
               <Link
                 className="shrink-0 text-xs text-slate-600 underline"
-                to={`/projects/${projectId}/documents/${source.document_id}`}
+                to={getSourceLink(projectId, source)}
               >
                 Open
               </Link>
@@ -278,4 +279,43 @@ function SourcesList({
       </div>
     </div>
   );
+}
+
+function getSourceTitle(source: ChatSource) {
+  return source.source_title ?? source.document_title ?? "Unknown source";
+}
+
+function getSourceType(source: ChatSource) {
+  return source.source_type ?? source.document_type ?? "DOCUMENT";
+}
+
+function getSourceId(source: ChatSource) {
+  return source.source_id ?? source.document_id;
+}
+
+function getSourceLink(projectId: string, source: ChatSource) {
+  const sourceType = getSourceType(source);
+  const sourceId = getSourceId(source);
+
+  if (!sourceId) {
+    return `/projects/${projectId}`;
+  }
+
+  if (sourceType === "DOCUMENT") {
+    return `/projects/${projectId}/documents/${sourceId}`;
+  }
+
+  if (sourceType === "DAILY_NOTE") {
+    return `/projects/${projectId}/notes/${sourceId}`;
+  }
+
+  if (sourceType === "BUG") {
+    return `/projects/${projectId}/bugs/${sourceId}`;
+  }
+
+  if (sourceType === "DECISION") {
+    return `/projects/${projectId}/decisions/${sourceId}`;
+  }
+
+  return `/projects/${projectId}`;
 }

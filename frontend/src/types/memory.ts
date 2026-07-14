@@ -26,3 +26,21 @@ export interface MemoryStats {
   bug_chunks: number;
   decision_chunks: number;
 }
+
+export interface MemorySearchResult {
+  chunk_id: number;
+  project_id: number;
+  source_type: string;
+  source_id: number;
+  source_title: string;
+  content: string;
+  chunk_index: number;
+  distance: number;
+}
+
+export interface MemorySearchResponse {
+  query: string;
+  top_k: number;
+  source_type: string | null;
+  results: MemorySearchResult[];
+}

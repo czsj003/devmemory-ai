@@ -11,8 +11,12 @@ def build_sources_context(
     blocks: list[str] = []
 
     for index, source in enumerate(sources, start=1):
-        document_title = source.get("document_title", "Unknown document")
-        document_type = source.get("document_type", "UNKNOWN")
+        source_title = source.get("source_title") or source.get(
+            "document_title",
+            "Unknown source",
+        )
+        source_type = source.get("source_type") or source.get("document_type", "UNKNOWN")
+        source_id = source.get("source_id") or source.get("document_id", "unknown")
         chunk_index = source.get("chunk_index", 0)
         distance = source.get("distance", None)
         content = source.get("content", "")
@@ -25,8 +29,9 @@ def build_sources_context(
         blocks.append(
             f"""
 [Source {index}]
-Document: {document_title}
-Type: {document_type}
+Source Title: {source_title}
+Source Type: {source_type}
+Source ID: {source_id}
 Chunk Index: {chunk_index}
 Distance: {distance_text}
 
@@ -50,7 +55,7 @@ Strict rules:
 3. If the sources do not contain enough information, say: "I don't have enough project memory to answer that yet."
 4. You may explain what information is missing.
 5. You may suggest which document, note, bug record, or decision the user should add.
-6. When answering, mention relevant source documents when useful.
+6. When answering, mention relevant source titles when useful.
 7. Keep answers practical and developer-focused.
 8. If the user asks for interview help, convert the available source context into a clear interview explanation.
 """.strip()
@@ -71,6 +76,6 @@ Retrieved project memory sources:
 
 Please answer the user's question based on the retrieved sources.
 
-When useful, refer to sources by document title, such as:
-"Based on DATABASE_DESIGN.md..."
+When useful, refer to sources by source title, such as:
+"Based on DATABASE_DESIGN.md..." or "Based on the Day 7 daily note..."
 """.strip()

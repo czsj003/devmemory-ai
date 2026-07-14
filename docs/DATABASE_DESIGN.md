@@ -122,7 +122,7 @@ Notes:
 - source_type and source_id identify the original record.
 - embedding uses pgvector.
 - Day 12 creates the table and reindex workflow.
-- Day 13 will upgrade semantic search and AI chat to use memory_chunks.
+- Day 13 upgrades unified search and AI chat to use memory_chunks.
 
 ## Semantic Search Design
 

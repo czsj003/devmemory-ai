@@ -1,32 +1,30 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { Link, useParams } from "react-router-dom";
 import { apiClient } from "../api/client";
+import type { MemorySearchResponse, MemorySearchResult } from "../types/memory";
 import type { Project } from "../types/project";
-import type {
-  SemanticSearchHealthResponse,
-  SemanticSearchResponse,
-  SemanticSearchResult,
-} from "../types/search";
+
+const SOURCE_TYPES = ["DOCUMENT", "DAILY_NOTE", "BUG", "DECISION"];
 
 const exampleQueries = [
   "What is this project about?",
-  "Why did I choose PostgreSQL?",
-  "What features are planned?",
-  "How is the database designed?",
-  "What did I build on Day 3?",
+  "What did I build on Day 7?",
+  "What bugs have I fixed?",
+  "Why did I choose PostgreSQL and pgvector?",
+  "How should I explain this project in an interview?",
 ];
 
 export default function SearchPage() {
   const { projectId } = useParams();
   const [project, setProject] = useState<Project | null>(null);
-  const [query, setQuery] = useState("Why did I choose PostgreSQL and pgvector?");
+  const [query, setQuery] = useState("What is this project about?");
   const [topK, setTopK] = useState(5);
-  const [results, setResults] = useState<SemanticSearchResult[]>([]);
+  const [sourceType, setSourceType] = useState("");
+  const [results, setResults] = useState<MemorySearchResult[]>([]);
   const [lastQuery, setLastQuery] = useState("");
+  const [lastSourceType, setLastSourceType] = useState("");
   const [isLoadingProject, setIsLoadingProject] = useState(true);
   const [isSearching, setIsSearching] = useState(false);
-  const [searchHealth, setSearchHealth] =
-    useState<SemanticSearchHealthResponse | null>(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -34,15 +32,8 @@ export default function SearchPage() {
       if (!projectId) return;
 
       try {
-        const [projectResponse, healthResponse] = await Promise.all([
-          apiClient.get<Project>(`/api/projects/${projectId}`),
-          apiClient.get<SemanticSearchHealthResponse>(
-            `/api/projects/${projectId}/semantic-search/health`,
-          ),
-        ]);
-
-        setProject(projectResponse.data);
-        setSearchHealth(healthResponse.data);
+        const response = await apiClient.get<Project>(`/api/projects/${projectId}`);
+        setProject(response.data);
       } catch {
         setError("Could not load project.");
       } finally {
@@ -62,19 +53,21 @@ export default function SearchPage() {
     setIsSearching(true);
 
     try {
-      const response = await apiClient.post<SemanticSearchResponse>(
-        `/api/projects/${projectId}/semantic-search`,
+      const response = await apiClient.post<MemorySearchResponse>(
+        `/api/projects/${projectId}/memory/search`,
         {
           query,
           top_k: topK,
+          source_type: sourceType || null,
         },
       );
 
       setResults(response.data.results);
       setLastQuery(response.data.query);
+      setLastSourceType(response.data.source_type ?? "");
     } catch {
       setError(
-        "Could not run semantic search. Make sure this project has indexed documents.",
+        "Could not run unified memory search. Re-index project memory and check the OpenAI API configuration.",
       );
     } finally {
       setIsSearching(false);
@@ -96,37 +89,23 @@ export default function SearchPage() {
       </Link>
 
       <div className="mt-4">
-        <h1 className="text-3xl font-bold">Semantic Search</h1>
+        <h1 className="text-3xl font-bold">Unified Memory Search</h1>
         <p className="mt-2 text-slate-600">
           {isLoadingProject
             ? "Loading project..."
             : project
-              ? `Search indexed memory inside ${project.name}.`
+              ? `Search documents, notes, bugs, and decisions inside ${project.name}.`
               : "Search indexed project memory."}
         </p>
       </div>
 
-      {searchHealth?.use_fake_embeddings ? (
-        <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-          <p className="font-medium">Development note</p>
-          <p className="mt-1">
-            This project is currently using fake embeddings, so ranking quality may
-            not be accurate yet. The search flow is ready, and results will improve
-            after switching to real embeddings and re-indexing documents.
-          </p>
-        </div>
-      ) : (
-        searchHealth && (
-          <div className="mt-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
-            <p className="font-medium">Real embeddings enabled</p>
-            <p className="mt-1">
-              Semantic search is using {searchHealth.embedding_model}. Re-index
-              documents after switching modes so existing chunks use real
-              embeddings.
-            </p>
-          </div>
-        )
-      )}
+      <div className="mt-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
+        <p className="font-medium">Unified memory enabled</p>
+        <p className="mt-1">
+          Search now uses the Day 12 memory index, so results can come from
+          documents, daily notes, bug records, and architecture decisions.
+        </p>
+      </div>
 
       {error && (
         <div className="mt-6 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
@@ -138,7 +117,7 @@ export default function SearchPage() {
         <aside className="h-fit rounded-lg bg-white p-6 shadow">
           <h2 className="text-lg font-semibold">Search Project Memory</h2>
           <p className="mt-1 text-sm text-slate-500">
-            Search only within this project's indexed document chunks.
+            Search across the unified index for this project.
           </p>
 
           <form className="mt-6 space-y-4" onSubmit={handleSearch}>
@@ -147,10 +126,26 @@ export default function SearchPage() {
               <textarea
                 className="mt-1 min-h-32 w-full rounded-lg border px-4 py-2"
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Ask about this project's documents..."
+                placeholder="Ask about this project's memory..."
                 required
                 value={query}
               />
+            </label>
+
+            <label className="block">
+              <span className="text-sm font-medium text-slate-700">Source Type</span>
+              <select
+                className="mt-1 w-full rounded-lg border px-4 py-2"
+                onChange={(event) => setSourceType(event.target.value)}
+                value={sourceType}
+              >
+                <option value="">All source types</option>
+                {SOURCE_TYPES.map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
             </label>
 
             <label className="block">
@@ -201,18 +196,18 @@ export default function SearchPage() {
 
             {lastQuery && (
               <p className="mt-1 text-sm text-slate-500">
-                Showing results for:{" "}
-                <span className="font-medium">{lastQuery}</span>
+                Showing results for: <span className="font-medium">{lastQuery}</span>
+                {lastSourceType ? ` in ${lastSourceType}` : ""}
               </p>
             )}
 
             {!lastQuery ? (
               <p className="mt-6 text-slate-500">
-                Run a search to see relevant document chunks.
+                Run a search to see relevant memory chunks.
               </p>
             ) : results.length === 0 ? (
               <p className="mt-6 text-slate-500">
-                No results found. Add documents and re-index them first.
+                No results found. Add project memory and click Re-index Memory first.
               </p>
             ) : (
               <div className="mt-6 space-y-4">
@@ -220,17 +215,15 @@ export default function SearchPage() {
                   <div className="rounded-lg border p-5" key={result.chunk_id}>
                     <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                       <div>
-                        <p className="text-sm text-slate-500">
-                          Result {index + 1}
-                        </p>
+                        <p className="text-sm text-slate-500">Result {index + 1}</p>
                         <h3 className="mt-1 text-lg font-semibold">
-                          {result.document_title}
+                          {result.source_title}
                         </h3>
                       </div>
 
                       <div className="flex flex-wrap gap-2">
                         <span className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700">
-                          {result.document_type}
+                          {result.source_type}
                         </span>
                         <span className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700">
                           Chunk {result.chunk_index}
@@ -248,12 +241,7 @@ export default function SearchPage() {
                       </p>
                     </div>
 
-                    <Link
-                      className="mt-4 inline-block text-sm text-slate-700 underline"
-                      to={`/projects/${projectId}/documents/${result.document_id}`}
-                    >
-                      Open source document
-                    </Link>
+                    <SourceLink projectId={projectId ?? ""} result={result} />
                   </div>
                 ))}
               </div>
@@ -262,5 +250,37 @@ export default function SearchPage() {
         </section>
       </div>
     </div>
+  );
+}
+
+function SourceLink({
+  projectId,
+  result,
+}: {
+  projectId: string;
+  result: MemorySearchResult;
+}) {
+  let to = `/projects/${projectId}`;
+
+  if (result.source_type === "DOCUMENT") {
+    to = `/projects/${projectId}/documents/${result.source_id}`;
+  }
+
+  if (result.source_type === "DAILY_NOTE") {
+    to = `/projects/${projectId}/notes/${result.source_id}`;
+  }
+
+  if (result.source_type === "BUG") {
+    to = `/projects/${projectId}/bugs/${result.source_id}`;
+  }
+
+  if (result.source_type === "DECISION") {
+    to = `/projects/${projectId}/decisions/${result.source_id}`;
+  }
+
+  return (
+    <Link className="mt-4 inline-block text-sm text-slate-700 underline" to={to}>
+      Open source
+    </Link>
   );
 }

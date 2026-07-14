@@ -26,5 +26,8 @@ from app.schemas.project_overview import (
 from app.schemas.memory import (
     MemoryChunkRead,
     MemoryReindexResponse,
+    MemorySearchRequest,
+    MemorySearchResponse,
+    MemorySearchResult,
     MemoryStatsResponse,
 )

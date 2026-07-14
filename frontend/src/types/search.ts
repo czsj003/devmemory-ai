@@ -1,9 +1,9 @@
 export interface SemanticSearchResult {
   chunk_id: number;
   project_id: number;
-  document_id: number;
-  document_title: string;
-  document_type: string;
+  source_type: string;
+  source_id: number;
+  source_title: string;
   content: string;
   chunk_index: number;
   distance: number;
@@ -12,6 +12,7 @@ export interface SemanticSearchResult {
 export interface SemanticSearchResponse {
   query: string;
   top_k: number;
+  source_type?: string | null;
   results: SemanticSearchResult[];
 }
 

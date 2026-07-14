@@ -11,7 +11,7 @@ def generate_rag_answer(
     if not sources:
         return (
             "I could not find enough indexed project memory to answer this question yet.\n\n"
-            "Try adding relevant documents, re-indexing the project documents, or asking a question that matches existing project memory."
+            "Try adding relevant documents, daily notes, bug records, or architecture decisions, then re-index project memory."
         )
 
     system_prompt = build_rag_system_prompt()

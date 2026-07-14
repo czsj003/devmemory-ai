@@ -9,9 +9,12 @@ from app.models.user import User
 from app.schemas.memory import (
     MemoryChunkRead,
     MemoryReindexResponse,
+    MemorySearchRequest,
+    MemorySearchResponse,
     MemoryStatsResponse,
 )
 from app.services.memory_indexer import reindex_project_memory
+from app.services.memory_search import search_project_memory_chunks
 
 
 router = APIRouter(
@@ -84,6 +87,31 @@ def get_memory_chunks(
         query = query.filter(MemoryChunk.source_type == source_type)
 
     return query.order_by(MemoryChunk.created_at.desc()).limit(limit).all()
+
+
+@router.post("/search", response_model=MemorySearchResponse)
+def search_memory(
+    project_id: int,
+    payload: MemorySearchRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    get_user_project_or_404(project_id, db, current_user)
+
+    results = search_project_memory_chunks(
+        db=db,
+        project_id=project_id,
+        query=payload.query,
+        top_k=payload.top_k,
+        source_type=payload.source_type,
+    )
+
+    return MemorySearchResponse(
+        query=payload.query,
+        top_k=payload.top_k,
+        source_type=payload.source_type,
+        results=results,
+    )
 
 
 @router.get("/stats", response_model=MemoryStatsResponse)
