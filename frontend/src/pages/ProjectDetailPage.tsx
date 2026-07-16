@@ -8,28 +8,8 @@ const featureCards = [
   {
     title: "Documents",
     description:
-      "Store README, specs, API docs, database notes, deployment notes, and logs.",
+      "Store specs, API docs, database notes, deployment notes, and project references.",
     path: "documents",
-  },
-  {
-    title: "Unified Memory Index",
-    description: "Index documents, notes, bugs, and decisions into one memory layer.",
-    path: "memory",
-  },
-  {
-    title: "Semantic Search",
-    description: "Search indexed project memory using vector similarity.",
-    path: "search",
-  },
-  {
-    title: "AI Chat",
-    description: "Ask project-aware questions and view source-backed responses.",
-    path: "chat",
-  },
-  {
-    title: "Interview Prep",
-    description: "Generate project pitch, resume bullets, and interview answers.",
-    path: "interview-prep",
   },
   {
     title: "Daily Notes",
@@ -45,6 +25,26 @@ const featureCards = [
     title: "Architecture Decisions",
     description: "Record architecture choices, alternatives, and trade-offs.",
     path: "decisions",
+  },
+  {
+    title: "Unified Memory Index",
+    description: "Index documents, notes, bugs, and decisions into one AI memory layer.",
+    path: "memory",
+  },
+  {
+    title: "Unified Memory Search",
+    description: "Search across all indexed project memory with vector similarity.",
+    path: "search",
+  },
+  {
+    title: "AI Chat",
+    description: "Ask project-aware questions with source-backed AI answers.",
+    path: "chat",
+  },
+  {
+    title: "Interview Prep",
+    description: "Generate project pitch, resume bullets, and interview answers.",
+    path: "interview-prep",
   },
 ];
 
@@ -180,6 +180,36 @@ export default function ProjectDetailPage() {
         <StatCard label="AI Summaries" value={overview.counts.summaries_count} />
       </section>
 
+      <section className="mt-8 rounded-lg bg-white p-6 shadow">
+        <h2 className="text-xl font-semibold">Recommended Workflow</h2>
+        <p className="mt-1 text-sm text-slate-500">
+          Follow these steps to get the best project memory and AI results.
+        </p>
+
+        <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <WorkflowStep
+            description="Add documents, daily notes, bug records, and architecture decisions."
+            step="1"
+            title="Add Memory"
+          />
+          <WorkflowStep
+            description="Build the unified memory index so AI can search your project."
+            step="2"
+            title="Re-index"
+          />
+          <WorkflowStep
+            description="Use search and chat to ask project-aware questions."
+            step="3"
+            title="Ask AI"
+          />
+          <WorkflowStep
+            description="Generate summaries, resume bullets, and interview answers."
+            step="4"
+            title="Prepare"
+          />
+        </div>
+      </section>
+
       <section className="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-[1fr_360px]">
         <div className="rounded-lg bg-white p-6 shadow">
           <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -233,7 +263,7 @@ export default function ProjectDetailPage() {
         </div>
       </section>
 
-      <section className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <section className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {featureCards.map((feature) => (
           <FeatureCard
             description={feature.description}
@@ -242,6 +272,28 @@ export default function ProjectDetailPage() {
             to={`/projects/${project.id}/${feature.path}`}
           />
         ))}
+      </section>
+
+      <section className="mt-8 rounded-lg bg-white p-6 shadow">
+        <h2 className="text-xl font-semibold">MVP Completion Status</h2>
+        <p className="mt-1 text-sm text-slate-500">
+          Core DevMemory AI features are now implemented.
+        </p>
+
+        <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+          <CompletionItem done label="Authentication" />
+          <CompletionItem done label="Project Workspace" />
+          <CompletionItem done label="Documents" />
+          <CompletionItem done label="Unified Memory Index" />
+          <CompletionItem done label="Unified Search" />
+          <CompletionItem done label="AI Chat with Sources" />
+          <CompletionItem done label="Daily Notes" />
+          <CompletionItem done label="Bug Memory" />
+          <CompletionItem done label="Architecture Decisions" />
+          <CompletionItem done label="AI Project Summary" />
+          <CompletionItem done label="Interview Prep Generator" />
+          <CompletionItem done={false} label="Deployment" />
+        </div>
       </section>
 
       <section className="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-2">
@@ -333,9 +385,13 @@ function FeatureCard({
   to: string;
 }) {
   return (
-    <Link className="block rounded-lg bg-white p-6 shadow hover:shadow-md" to={to}>
+    <Link
+      className="block rounded-lg bg-white p-6 shadow transition hover:-translate-y-0.5 hover:shadow-md"
+      to={to}
+    >
       <h2 className="text-lg font-semibold">{title}</h2>
-      <p className="mt-2 text-sm text-slate-600">{description}</p>
+      <p className="mt-2 text-sm leading-6 text-slate-600">{description}</p>
+      <p className="mt-4 text-sm font-medium text-slate-900">Open</p>
     </Link>
   );
 }
@@ -364,6 +420,47 @@ function CoverageItem({
         }`}
       >
         {active ? "Ready" : "Missing"}
+      </span>
+    </div>
+  );
+}
+
+function WorkflowStep({
+  step,
+  title,
+  description,
+}: {
+  step: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="rounded-lg border p-4">
+      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
+        {step}
+      </div>
+      <h3 className="mt-4 font-semibold">{title}</h3>
+      <p className="mt-2 text-sm text-slate-500">{description}</p>
+    </div>
+  );
+}
+
+function CompletionItem({
+  label,
+  done,
+}: {
+  label: string;
+  done: boolean;
+}) {
+  return (
+    <div className="flex items-center justify-between rounded-lg border px-4 py-3">
+      <span className="text-sm">{label}</span>
+      <span
+        className={`rounded-full px-3 py-1 text-xs ${
+          done ? "bg-green-50 text-green-700" : "bg-slate-100 text-slate-500"
+        }`}
+      >
+        {done ? "Done" : "Skipped"}
       </span>
     </div>
   );

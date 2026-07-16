@@ -120,6 +120,15 @@ export default function MemoryPage() {
         </div>
       )}
 
+      <div className="mt-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
+        <p className="font-medium">Unified project memory</p>
+        <p className="mt-1">
+          Re-index project memory after adding or editing documents, notes, bugs,
+          or decisions. AI Search, AI Chat, and Interview Prep use this unified
+          memory index.
+        </p>
+      </div>
+
       <section className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-5">
         <StatCard label="Total Chunks" value={stats?.total_chunks ?? "..."} />
         <StatCard label="Documents" value={stats?.document_chunks ?? "..."} />

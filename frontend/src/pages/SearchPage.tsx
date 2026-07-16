@@ -66,9 +66,7 @@ export default function SearchPage() {
       setLastQuery(response.data.query);
       setLastSourceType(response.data.source_type ?? "");
     } catch {
-      setError(
-        "Could not run unified memory search. Re-index project memory and check the OpenAI API configuration.",
-      );
+      setError("Could not search project memory. Re-index memory first, then try again.");
     } finally {
       setIsSearching(false);
     }
@@ -207,7 +205,7 @@ export default function SearchPage() {
               </p>
             ) : results.length === 0 ? (
               <p className="mt-6 text-slate-500">
-                No results found. Add project memory and click Re-index Memory first.
+                No results found. Add project memory and run Re-index Memory first.
               </p>
             ) : (
               <div className="mt-6 space-y-4">

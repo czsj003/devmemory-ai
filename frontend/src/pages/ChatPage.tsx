@@ -62,7 +62,7 @@ export default function ChatPage() {
       setMessage("");
     } catch {
       setError(
-        "Could not generate AI response. Check unified memory indexing and OpenAI API configuration.",
+        "Could not generate AI response. Re-index unified memory and check OpenAI API configuration.",
       );
     } finally {
       setIsSending(false);
@@ -104,10 +104,11 @@ export default function ChatPage() {
       </div>
 
       <div className="mt-6 rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800">
-        <p className="font-medium">Unified source-grounded AI chat</p>
+        <p className="font-medium">Source-backed project AI</p>
         <p className="mt-1">
-          This chat retrieves relevant documents, notes, bugs, and decisions
-          from the unified memory index, then generates an answer using OpenAI.
+          AI Chat searches unified project memory first, then generates an
+          answer with OpenAI. Each response includes sources from documents,
+          notes, bugs, or architecture decisions.
         </p>
       </div>
 

@@ -138,8 +138,8 @@ export default function InterviewPrepPage() {
         </div>
 
         <p className="mt-3 text-xs text-slate-400">
-          Tip: Re-index unified memory before generating if you recently added
-          notes, bugs, or decisions.
+          Tip: Add project notes, bugs, and decisions first, then re-index
+          unified memory before generating interview prep.
         </p>
       </section>
 
@@ -147,7 +147,8 @@ export default function InterviewPrepPage() {
         <section className="mt-8 rounded-lg bg-white p-8 text-center shadow">
           <h2 className="text-xl font-semibold">No interview prep yet</h2>
           <p className="mt-2 text-slate-500">
-            Generate your first interview prep package from project memory.
+            Generate a project pitch, technical explanation, resume bullets,
+            debugging story, and STAR answer from unified project memory.
           </p>
         </section>
       ) : (

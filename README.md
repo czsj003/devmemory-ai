@@ -1,8 +1,8 @@
 # DevMemory AI
 
-DevMemory AI is an AI-powered project memory system for developers.
+DevMemory AI is an AI-powered project memory workspace for developers.
 
-It helps developers organize long-term project context such as project documents, daily development notes, bug reports, and architecture decisions. The system uses project-aware RAG to answer project-specific questions, generate project summaries, analyze bugs, suggest next steps, and prepare interview materials.
+It helps developers store project documents, daily notes, bug records, architecture decisions, and AI-generated summaries in one workspace. The system indexes project memory with embeddings and uses source-grounded AI chat to answer questions based on the actual project history.
 
 ## Problem
 
@@ -20,6 +20,8 @@ DevMemory AI centralizes project context into structured workspaces. Each projec
 - Daily development notes
 - Bug memory
 - Architecture decision records
+- Unified memory indexing
+- Unified semantic search
 - Project-aware AI chat
 - AI project summaries
 - Interview preparation generator
@@ -83,6 +85,11 @@ DevMemory AI centralizes project context into structured workspaces. Each projec
 - Day 12: Unified memory indexing
 - Day 13: Unified memory search and unified AI chat
 - Day 14: Interview Prep and Resume Bullet Generator
+- Day 15: Final product polish and completion cleanup
+
+Local MVP completed through Day 15 polish.
+
+Deployment is intentionally skipped for this version.
 
 ## Development Log
 
@@ -141,3 +148,7 @@ Upgraded search and chat to use the unified memory index. Users can now search a
 ### Day 14
 
 Implemented Interview Prep and Resume Bullet Generator. The app can now generate project pitch, technical explanation, resume bullets, debugging story, architecture explanation, and STAR interview answer from unified project memory using OpenAI. Generated prep is saved to the interview_preps table and displayed in the frontend with copy actions.
+
+### Day 15
+
+Polished the product experience for final local MVP completion. Reordered the project dashboard around the recommended workflow, added workflow and completion status sections, clarified AI feature guidance, improved empty and error states, and added final demo documentation.
