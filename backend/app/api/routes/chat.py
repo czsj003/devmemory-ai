@@ -6,7 +6,11 @@ from app.db.database import get_db
 from app.models.project import Project
 from app.models.user import User
 from app.schemas.chat import ChatMessageRead, ChatRequest, ChatResponse
-from app.services.chat_service import create_chat_response, get_project_chat_messages
+from app.services.chat_service import (
+    clear_project_chat_messages,
+    create_chat_response,
+    get_project_chat_messages,
+)
 
 
 router = APIRouter(
@@ -73,3 +77,19 @@ def chat_with_project(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Could not generate chat response: {str(exc)}",
         ) from exc
+
+
+@router.delete("/messages", status_code=status.HTTP_204_NO_CONTENT)
+def clear_chat_messages(
+    project_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    get_user_project_or_404(project_id, db, current_user)
+
+    clear_project_chat_messages(
+        db=db,
+        project_id=project_id,
+    )
+
+    return None

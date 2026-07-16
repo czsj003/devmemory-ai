@@ -128,3 +128,29 @@ def get_project_chat_messages(
         .order_by(ChatMessage.created_at.asc(), ChatMessage.id.asc())
         .all()
     )
+
+
+def clear_project_chat_messages(
+    db: Session,
+    project_id: int,
+) -> int:
+    sessions = (
+        db.query(ChatSession)
+        .filter(ChatSession.project_id == project_id)
+        .all()
+    )
+
+    if not sessions:
+        return 0
+
+    session_ids = [session.id for session in sessions]
+
+    deleted_count = (
+        db.query(ChatMessage)
+        .filter(ChatMessage.session_id.in_(session_ids))
+        .delete(synchronize_session=False)
+    )
+
+    db.commit()
+
+    return deleted_count

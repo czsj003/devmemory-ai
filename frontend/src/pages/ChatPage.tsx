@@ -69,13 +69,32 @@ export default function ChatPage() {
     }
   }
 
+  async function handleClearChat() {
+    if (!projectId) return;
+
+    const confirmed = window.confirm(
+      "Are you sure you want to clear all AI chat messages for this project?",
+    );
+
+    if (!confirmed) return;
+
+    setError("");
+
+    try {
+      await apiClient.delete(`/api/projects/${projectId}/chat/messages`);
+      setMessages([]);
+    } catch {
+      setError("Could not clear chat messages.");
+    }
+  }
+
   return (
     <div className="flex min-h-[calc(100vh-96px)] flex-col">
       <Link className="text-sm text-slate-600 underline" to={`/projects/${projectId}`}>
         Back to Project
       </Link>
 
-      <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+      <div className="mt-4 flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
         <div>
           <h1 className="text-3xl font-bold">AI Chat</h1>
           <p className="mt-2 text-slate-600">
@@ -83,24 +102,35 @@ export default function ChatPage() {
               ? "Loading project chat..."
               : project
                 ? `Ask source-backed questions about ${project.name}.`
-                : "Ask source-backed questions about this project."}
+                : "Ask project-aware questions using unified memory."}
           </p>
         </div>
 
-        <label className="w-full max-w-40">
-          <span className="text-sm font-medium text-slate-700">Sources</span>
-          <select
-            className="mt-1 w-full rounded-lg border px-3 py-2"
-            onChange={(event) => setTopK(Number(event.target.value))}
-            value={topK}
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+          <label className="w-full sm:w-40">
+            <span className="text-sm font-medium text-slate-700">Sources</span>
+            <select
+              className="mt-1 w-full rounded-lg border px-3 py-2"
+              onChange={(event) => setTopK(Number(event.target.value))}
+              value={topK}
+            >
+              {[3, 5, 8, 10].map((value) => (
+                <option key={value} value={value}>
+                  Top {value}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <button
+            className="rounded-lg border border-red-200 px-4 py-2 text-sm text-red-700 hover:bg-red-50 disabled:opacity-60"
+            disabled={messages.length === 0 || isSending}
+            onClick={handleClearChat}
+            type="button"
           >
-            {[3, 5, 8, 10].map((value) => (
-              <option key={value} value={value}>
-                Top {value}
-              </option>
-            ))}
-          </select>
-        </label>
+            Clear Chat
+          </button>
+        </div>
       </div>
 
       <div className="mt-6 rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800">

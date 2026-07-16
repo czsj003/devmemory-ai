@@ -23,6 +23,7 @@ DevMemory AI centralizes project context into structured workspaces. Each projec
 - Unified memory indexing
 - Unified semantic search
 - Project-aware AI chat
+- Clear AI chat history
 - AI project summaries
 - Interview preparation generator
 - Resume bullet generation
@@ -86,10 +87,64 @@ DevMemory AI centralizes project context into structured workspaces. Each projec
 - Day 13: Unified memory search and unified AI chat
 - Day 14: Interview Prep and Resume Bullet Generator
 - Day 15: Final product polish and completion cleanup
+- Day 16: Final QA, clear chat history, and local MVP completion
 
-Local MVP completed through Day 15 polish.
+Completed as a local MVP.
 
 Deployment is intentionally skipped for this version.
+
+## Final Features
+
+- User authentication
+- Project workspace
+- Project documents
+- Daily development notes
+- Bug memory
+- Architecture decisions
+- Unified memory indexing
+- Unified memory search
+- Source-backed AI chat
+- Clear AI chat history
+- AI project summary
+- Interview prep and resume bullet generation
+
+## Run Locally
+
+### Database
+
+```bash
+docker compose up -d
+```
+
+### Backend
+
+```bash
+cd backend
+.venv\Scripts\activate
+uvicorn app.main:app --reload
+```
+
+### Frontend
+
+```bash
+cd frontend
+npm run dev
+```
+
+## Environment Variables
+
+Backend `.env`:
+
+```env
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/devmemory_ai
+SECRET_KEY=replace-this-with-a-long-random-secret-key
+OPENAI_API_KEY=your-openai-api-key
+LLM_MODEL=gpt-4.1-mini
+EMBEDDING_MODEL=text-embedding-3-small
+EMBEDDING_DIMENSION=1536
+USE_FAKE_EMBEDDINGS=false
+FRONTEND_URL=http://localhost:5173
+```
 
 ## Development Log
 
@@ -152,3 +207,7 @@ Implemented Interview Prep and Resume Bullet Generator. The app can now generate
 ### Day 15
 
 Polished the product experience for final local MVP completion. Reordered the project dashboard around the recommended workflow, added workflow and completion status sections, clarified AI feature guidance, improved empty and error states, and added final demo documentation.
+
+### Day 16
+
+Completed the local MVP. Added clear AI chat history, updated final docs, verified backend and frontend checks, and prepared the project for local demo, saving, and portfolio use.

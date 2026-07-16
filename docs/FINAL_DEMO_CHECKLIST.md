@@ -16,8 +16,9 @@ Prepare DevMemory AI for final local demo and project completion.
 8. Re-index unified memory
 9. Search unified memory
 10. Ask AI Chat a project-aware question
-11. Generate AI Project Summary
-12. Generate Interview Prep
+11. Clear AI Chat
+12. Generate AI Project Summary
+13. Generate Interview Prep
 
 ## Required Demo Data
 
@@ -28,6 +29,22 @@ Prepare DevMemory AI for final local demo and project completion.
 - Unified memory index generated
 - At least one AI project summary
 - At least one interview prep package
+
+## Final Day 16 Checks
+
+- [ ] Frontend build succeeds
+- [ ] Backend starts successfully
+- [ ] Swagger opens
+- [ ] Login works
+- [ ] Project overview opens
+- [ ] Unified memory reindex works
+- [ ] Unified memory search works
+- [ ] AI chat works
+- [ ] Clear chat works
+- [ ] AI summary generation works
+- [ ] Interview prep generation works
+- [ ] README updated
+- [ ] Final commit created
 
 ## Suggested AI Chat Questions
 

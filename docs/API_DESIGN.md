@@ -203,6 +203,7 @@ Notes:
 
 GET /api/projects/{project_id}/chat/messages
 POST /api/projects/{project_id}/chat
+DELETE /api/projects/{project_id}/chat/messages
 
 ### GET /api/projects/{project_id}/chat/messages
 
@@ -283,6 +284,17 @@ Notes:
 - Answers are grounded in retrieved unified project memory sources.
 - Sources can now come from documents, daily notes, bug records, or architecture decisions.
 - If no relevant sources are found, the backend returns an insufficient-context message.
+
+### DELETE /api/projects/{project_id}/chat/messages
+
+Clears all AI chat messages for the current project.
+
+Notes:
+
+- Requires authentication.
+- Checks project ownership.
+- Deletes messages from the default project chat history.
+- Does not delete project memory, documents, notes, bugs, decisions, summaries, or interview prep.
 
 ## Interview Prep
 
@@ -458,6 +470,7 @@ Notes:
 ## AI
 
 POST /api/projects/{project_id}/chat  
+DELETE /api/projects/{project_id}/chat/messages
 POST /api/projects/{project_id}/semantic-search  
 GET /api/projects/{project_id}/overview
 POST /api/projects/{project_id}/summary/generate

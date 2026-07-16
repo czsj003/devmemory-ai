@@ -452,6 +452,12 @@ How to explain:
 
 This service now coordinates the full RAG chat workflow: save user message, retrieve unified memory sources, generate an OpenAI answer, save assistant message, and return chat history.
 
+Day 16 update:
+
+- Added clear_project_chat_messages
+- Allows clearing saved AI chat messages for a project
+- Keeps the project and project memory unchanged
+
 ---
 
 ### backend/app/api/routes/chat.py
@@ -470,6 +476,11 @@ What it does:
 How to explain:
 
 This route provides project-aware chat functionality while keeping user data scoped to the current project.
+
+Day 16 update:
+
+- Added DELETE /projects/{project_id}/chat/messages
+- Clears project chat history after checking ownership
 
 ---
 
@@ -841,6 +852,12 @@ What it does:
 How to explain:
 
 This page now provides a real AI chat experience grounded in project memory sources.
+
+Day 16 update:
+
+- Added Clear Chat button
+- Added confirmation before deleting messages
+- Clears messages from UI after successful backend deletion
 
 ---
 
