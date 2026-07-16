@@ -11,3 +11,4 @@ from app.models.bug import Bug
 from app.models.decision import Decision
 from app.models.ai_summary import AISummary
 from app.models.memory_chunk import MemoryChunk
+from app.models.interview_prep import InterviewPrep

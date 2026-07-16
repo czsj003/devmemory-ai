@@ -27,6 +27,11 @@ const featureCards = [
     path: "chat",
   },
   {
+    title: "Interview Prep",
+    description: "Generate project pitch, resume bullets, and interview answers.",
+    path: "interview-prep",
+  },
+  {
     title: "Daily Notes",
     description: "Record daily progress, completed tasks, blockers, and next steps.",
     path: "notes",

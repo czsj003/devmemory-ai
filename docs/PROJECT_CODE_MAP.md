@@ -1330,3 +1330,118 @@ What it does:
 How to explain:
 
 This page gives users visibility into the unified memory layer that powers future project-wide AI search and chat.
+
+---
+
+## Day 14 Interview Prep
+
+### backend/app/models/interview_prep.py
+
+Purpose:
+
+Defines the interview_preps database table.
+
+What it does:
+
+- Stores AI-generated interview prep content
+- Connects generated prep to a project
+- Stores pitch, technical explanation, resume bullets, debugging story, architecture explanation, and STAR answer
+
+How to explain:
+
+This model stores generated job-prep material so users can revisit and copy it later.
+
+---
+
+### backend/app/schemas/interview_prep.py
+
+Purpose:
+
+Defines request and response shapes for interview prep APIs.
+
+What it does:
+
+- Defines the generate request
+- Defines the interview prep response
+- Defines the generated prep payload
+
+How to explain:
+
+This file keeps the Interview Prep API contract organized.
+
+---
+
+### backend/app/services/interview_prep.py
+
+Purpose:
+
+Generates interview preparation content from project memory.
+
+What it does:
+
+- Collects project context
+- Reads unified memory chunks
+- Reads bug records
+- Reads architecture decisions
+- Builds an OpenAI prompt
+- Parses generated JSON into structured sections
+
+How to explain:
+
+This service turns project memory into job-search material such as resume bullets, project pitches, and STAR interview answers.
+
+---
+
+### backend/app/api/routes/interview_prep.py
+
+Purpose:
+
+Exposes Interview Prep APIs.
+
+What it does:
+
+- Returns the latest interview prep
+- Generates a new interview prep package
+- Saves generated content
+- Checks project ownership
+
+How to explain:
+
+This route lets users generate and retrieve AI-powered interview material for a project.
+
+---
+
+### frontend/src/types/interviewPrep.ts
+
+Purpose:
+
+Defines TypeScript types for generated interview prep.
+
+What it does:
+
+- Describes generated prep sections
+- Describes the generate API response
+
+How to explain:
+
+This file helps the frontend safely display interview prep content.
+
+---
+
+### frontend/src/pages/InterviewPrepPage.tsx
+
+Purpose:
+
+Displays and generates interview preparation material.
+
+What it does:
+
+- Loads the latest generated prep
+- Lets users provide a role focus
+- Calls the generate API
+- Displays project pitch, technical explanation, resume bullets, debugging story, architecture explanation, and STAR answer
+- Supports copying each section
+
+How to explain:
+
+This page turns project memory into practical interview and resume material.

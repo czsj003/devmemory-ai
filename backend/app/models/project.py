@@ -68,3 +68,9 @@ class Project(Base):
         back_populates="project",
         cascade="all, delete-orphan",
     )
+
+    interview_preps = relationship(
+        "InterviewPrep",
+        back_populates="project",
+        cascade="all, delete-orphan",
+    )

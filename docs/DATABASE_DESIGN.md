@@ -259,6 +259,33 @@ Notes:
 - Summaries are generated using OpenAI API.
 - Each generated summary is stored as a historical record.
 
+### interview_preps
+
+Stores AI-generated interview preparation material for a project.
+
+Fields:
+
+- id
+- project_id
+- type
+- project_pitch
+- technical_explanation
+- resume_bullets
+- debugging_story
+- architecture_explanation
+- star_answer
+- created_at
+
+Types:
+
+- FULL_PREP
+
+Notes:
+
+- Day 14 uses FULL_PREP.
+- Generated content is based on unified project memory.
+- Multiple generations are stored as historical records.
+
 ### chat_sessions
 
 Stores project AI chat sessions.

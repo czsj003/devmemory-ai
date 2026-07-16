@@ -31,3 +31,8 @@ from app.schemas.memory import (
     MemorySearchResult,
     MemoryStatsResponse,
 )
+from app.schemas.interview_prep import (
+    InterviewPrepGenerateRequest,
+    InterviewPrepGenerateResponse,
+    InterviewPrepRead,
+)

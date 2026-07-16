@@ -284,6 +284,62 @@ Notes:
 - Sources can now come from documents, daily notes, bug records, or architecture decisions.
 - If no relevant sources are found, the backend returns an insufficient-context message.
 
+## Interview Prep
+
+GET /api/projects/{project_id}/interview-prep/latest
+POST /api/projects/{project_id}/interview-prep/generate
+
+### GET /api/projects/{project_id}/interview-prep/latest
+
+Returns the latest generated interview prep package for a project.
+
+### POST /api/projects/{project_id}/interview-prep/generate
+
+Generates interview preparation material using project memory.
+
+Request:
+
+```json
+{
+  "focus": "backend engineering internship"
+}
+```
+
+Response:
+
+```json
+{
+  "prep": {
+    "id": 1,
+    "project_id": 1,
+    "type": "FULL_PREP",
+    "project_pitch": "...",
+    "technical_explanation": "...",
+    "resume_bullets": "...",
+    "debugging_story": "...",
+    "architecture_explanation": "...",
+    "star_answer": "...",
+    "created_at": "..."
+  }
+}
+```
+
+Generated sections:
+
+- Project Pitch
+- Technical Explanation
+- Resume Bullets
+- Debugging Story
+- Architecture Explanation
+- STAR Interview Answer
+
+Notes:
+
+- Uses OpenAI.
+- Uses unified memory chunks.
+- Requires project ownership.
+- Does not invent unsupported metrics.
+
 ## Daily Notes
 
 GET /api/projects/{project_id}/notes  
@@ -410,6 +466,6 @@ POST /api/projects/{project_id}/memory/reindex
 GET /api/projects/{project_id}/memory/chunks
 GET /api/projects/{project_id}/memory/stats
 POST /api/projects/{project_id}/memory/search
+GET /api/projects/{project_id}/interview-prep/latest
+POST /api/projects/{project_id}/interview-prep/generate
 POST /api/projects/{project_id}/generate-next-steps  
-POST /api/projects/{project_id}/generate-interview-prep  
-POST /api/projects/{project_id}/generate-resume-bullets

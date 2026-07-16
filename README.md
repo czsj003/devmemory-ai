@@ -82,6 +82,7 @@ DevMemory AI centralizes project context into structured workspaces. Each projec
 - Day 11: Real source-grounded AI chat
 - Day 12: Unified memory indexing
 - Day 13: Unified memory search and unified AI chat
+- Day 14: Interview Prep and Resume Bullet Generator
 
 ## Development Log
 
@@ -136,3 +137,7 @@ Implemented unified memory indexing. Documents, daily notes, bug records, and ar
 ### Day 13
 
 Upgraded search and chat to use the unified memory index. Users can now search across documents, daily notes, bug records, and architecture decisions from one endpoint. AI Chat now retrieves from memory_chunks before calling OpenAI, and source cards can link back to the original source type.
+
+### Day 14
+
+Implemented Interview Prep and Resume Bullet Generator. The app can now generate project pitch, technical explanation, resume bullets, debugging story, architecture explanation, and STAR interview answer from unified project memory using OpenAI. Generated prep is saved to the interview_preps table and displayed in the frontend with copy actions.
